@@ -653,6 +653,8 @@ ul { list-style: none; }
   text-align: left;
   padding: 0;
   font-family: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 .categoria-card:hover {
   transform: translateY(-8px);
@@ -768,95 +770,8 @@ ul { list-style: none; }
 }
 
 /* ----------------------------------------------------------
-   OVERLAY — PÁGINA DE CATEGORIA
+   CARDS DE PRODUTO (usados na página de catálogo)
    ---------------------------------------------------------- */
-.categoria-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 950;
-  background: var(--cor-bege);
-  overflow-y: auto;
-  transform: translateX(100%);
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
-}
-.categoria-overlay:not([hidden]) {
-  display: block;
-}
-.categoria-overlay.open {
-  transform: translateX(0);
-}
-
-.categoria-overlay__inner {
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: 1.5rem;
-  padding-block: 2rem 4rem;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Header do overlay */
-.categoria-overlay__header {
-  display: flex;
-  align-items: flex-start;
-  gap: 2rem;
-  padding-block: 1rem 2.5rem;
-  border-bottom: 1px solid var(--cor-bege-esc);
-  margin-bottom: 2.5rem;
-  padding-top: calc(var(--header-h) + 1rem);
-}
-
-.categoria-overlay__back {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: none;
-  border: 1px solid var(--cor-bege-esc);
-  border-radius: var(--radius-sm);
-  padding: 0.55rem 1rem;
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--cor-couro);
-  cursor: pointer;
-  transition: all var(--transicao);
-  white-space: nowrap;
-  flex-shrink: 0;
-  margin-top: 0.25rem;
-}
-.categoria-overlay__back:hover {
-  background: var(--cor-couro);
-  color: #fff;
-  border-color: var(--cor-couro);
-}
-
-.categoria-overlay__label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--cor-couro);
-  margin-bottom: 0.4rem;
-}
-.categoria-overlay__titulo {
-  font-family: var(--font-display);
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  font-weight: 700;
-  color: var(--cor-terra);
-  line-height: 1.15;
-}
-
-/* Grid de produtos dentro do overlay */
-.categoria-overlay__produtos {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.75rem;
-  flex: 1;
-}
-
-/* Card de produto dentro do overlay */
 .produto-card {
   background: var(--cor-branco);
   border-radius: var(--radius-md);
@@ -954,22 +869,6 @@ ul { list-style: none; }
   color: var(--cor-couro);
   font-size: 0.7rem;
   top: 0.1em;
-}
-
-/* Footer do overlay */
-.categoria-overlay__footer {
-  margin-top: 3.5rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--cor-bege-esc);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-.categoria-overlay__footer p {
-  font-size: 0.95rem;
-  color: var(--cor-texto-sec);
 }
 
 /* ----------------------------------------------------------
@@ -1430,10 +1329,6 @@ ul { list-style: none; }
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .categoria-overlay__produtos {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .diferenciais__grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1508,20 +1403,6 @@ ul { list-style: none; }
   /* Catálogo — categorias */
   .categorias__grid {
     grid-template-columns: 1fr;
-  }
-
-  /* Overlay de categoria */
-  .categoria-overlay__produtos {
-    grid-template-columns: 1fr;
-  }
-  .categoria-overlay__header {
-    flex-direction: column;
-    gap: 1rem;
-    padding-top: calc(var(--header-h) + 1rem);
-  }
-  .categoria-overlay__footer {
-    flex-direction: column;
-    align-items: flex-start;
   }
 
   /* Diferenciais */
