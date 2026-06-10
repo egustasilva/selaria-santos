@@ -1106,6 +1106,16 @@ ul { list-style: none; }
 }
 .contato__item a:hover { color: var(--cor-ouro); }
 
+.contato__maps-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--cor-couro);
+  transition: color var(--transicao);
+}
+.contato__maps-link:hover { color: var(--cor-ouro); }
+
 .contato__closed {
   font-size: 0.82rem;
   color: var(--cor-texto-ter);
