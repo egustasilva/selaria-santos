@@ -1280,11 +1280,49 @@ ul { list-style: none; }
 /* ----------------------------------------------------------
    BOTÃO FLUTUANTE WHATSAPP
    ---------------------------------------------------------- */
-.whatsapp-float {
+.whatsapp-float-wrap {
   position: fixed;
   bottom: 2rem;
   right: 2rem;
   z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.whatsapp-float__hint {
+  position: relative;
+  background: var(--cor-branco);
+  color: var(--cor-texto);
+  padding: 0.55rem 0.95rem;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(46, 26, 14, 0.18);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(10px);
+  animation: wppHintPeek 10s ease-in-out infinite;
+}
+
+.whatsapp-float__hint::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-left-color: var(--cor-branco);
+}
+
+.whatsapp-float-wrap:hover .whatsapp-float__hint {
+  animation-play-state: paused;
+  opacity: 0;
+}
+
+.whatsapp-float {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.6rem;
@@ -1342,6 +1380,24 @@ ul { list-style: none; }
   0%   { transform: scale(1);   opacity: 0.6; }
   70%  { transform: scale(1.5); opacity: 0;   }
   100% { transform: scale(1.5); opacity: 0;   }
+}
+
+@keyframes wppHintPeek {
+  0%, 62% {
+    opacity: 0;
+    transform: translateX(10px);
+    visibility: hidden;
+  }
+  68%, 88% {
+    opacity: 1;
+    transform: translateX(0);
+    visibility: visible;
+  }
+  94%, 100% {
+    opacity: 0;
+    transform: translateX(10px);
+    visibility: hidden;
+  }
 }
 
 /* Reveal on scroll */
@@ -1489,10 +1545,29 @@ ul { list-style: none; }
   .footer__copy { text-align: center; }
 
   /* WhatsApp float — esconde label no mobile pequeno */
+  .whatsapp-float-wrap {
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
   .whatsapp-float { padding: 0.9rem; }
   .whatsapp-float__label { display: none; }
   .whatsapp-float { border-radius: 50%; }
   .whatsapp-float::before { border-radius: 50%; }
+  .whatsapp-float__hint {
+    font-size: 0.75rem;
+    padding: 0.45rem 0.75rem;
+  }
+  .whatsapp-float__hint::after {
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: -6px;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--cor-branco);
+    border-left-color: transparent;
+  }
 }
 
 /* ----------------------------------------------------------

@@ -1,161 +1,29 @@
 /**
  * Selaria & Casa de Couro Santos
- * script.js — Interatividade principal
+ * catalogo.js — Lógica da página de catálogo
+ *
+ * Responsabilidades:
+ *  - Ler ?c= da URL para exibir a categoria certa ao carregar
+ *  - Renderizar os cards de produto da categoria ativa
+ *  - Trocar de categoria ao clicar nas tabs (sem recarregar)
+ *  - Atualizar a URL com history.pushState ao trocar de aba
  */
 
 (function () {
   'use strict';
 
   /* ----------------------------------------------------------------
-     SELETORES
-  ---------------------------------------------------------------- */
-  const header   = document.getElementById('header');
-  const burger   = document.getElementById('burger');
-  const nav      = document.getElementById('nav');
-  const reveals  = document.querySelectorAll('[data-reveal]');
-  const navLinks = document.querySelectorAll('.nav__link');
-
-  /* ----------------------------------------------------------------
-     HEADER — SCROLL EFFECT
-  ---------------------------------------------------------------- */
-  function handleHeaderScroll() {
-    header.classList.toggle('scrolled', window.scrollY > 80);
-  }
-  window.addEventListener('scroll', handleHeaderScroll, { passive: true });
-  handleHeaderScroll();
-
-  /* ----------------------------------------------------------------
-     MENU MOBILE — FIX: nav usa position:fixed com top:0 + padding-top
-     para que o posicionamento não dependa do scroll atual.
-  ---------------------------------------------------------------- */
-  function toggleMenu(forceClose) {
-    const isOpen = nav.classList.contains('open');
-    const shouldOpen = (forceClose === true) ? false : !isOpen;
-
-    nav.classList.toggle('open', shouldOpen);
-    burger.classList.toggle('active', shouldOpen);
-    burger.setAttribute('aria-expanded', String(shouldOpen));
-    document.body.style.overflow = shouldOpen ? 'hidden' : '';
-  }
-
-  burger.addEventListener('click', () => toggleMenu());
-
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => toggleMenu(true));
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && nav.classList.contains('open')) {
-      toggleMenu(true);
-      burger.focus();
-    }
-  });
-
-  /* ----------------------------------------------------------------
-     SCROLL SUAVE — LINKS ÂNCORA
-  ---------------------------------------------------------------- */
-  document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', function (e) {
-      const targetId = this.getAttribute('href');
-      if (targetId === '#') return;
-      const target = document.querySelector(targetId);
-      if (!target) return;
-      e.preventDefault();
-      const headerH = header.offsetHeight;
-      const targetTop = target.getBoundingClientRect().top + window.scrollY - headerH - 8;
-      window.scrollTo({ top: targetTop, behavior: 'smooth' });
-    });
-  });
-
-  /* ----------------------------------------------------------------
-     REVEAL ON SCROLL — INTERSECTION OBSERVER
-  ---------------------------------------------------------------- */
-  if ('IntersectionObserver' in window) {
-    const revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
-    );
-    reveals.forEach(el => revealObserver.observe(el));
-  } else {
-    reveals.forEach(el => el.classList.add('revealed'));
-  }
-
-  /* ----------------------------------------------------------------
-     ACTIVE NAV LINK
-  ---------------------------------------------------------------- */
-  const sections = document.querySelectorAll('section[id]');
-  if ('IntersectionObserver' in window) {
-    const navObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const id = entry.target.getAttribute('id');
-            navLinks.forEach(link => {
-              link.style.color = link.getAttribute('href') === `#${id}`
-                ? 'var(--cor-ouro-claro)'
-                : '';
-            });
-          }
-        });
-      },
-      { rootMargin: `-${header.offsetHeight + 10}px 0px -60% 0px` }
-    );
-    sections.forEach(section => navObserver.observe(section));
-  }
-
-  /* ----------------------------------------------------------------
-     WHATSAPP FLOAT
-  ---------------------------------------------------------------- */
-  const wppWrap = document.querySelector('.whatsapp-float-wrap');
-  if (wppWrap) {
-    wppWrap.style.opacity = '0';
-    wppWrap.style.transform = 'scale(0.8) translateY(10px)';
-    wppWrap.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-
-    function showWppFloat() {
-      wppWrap.style.opacity = '1';
-      wppWrap.style.transform = '';
-    }
-
-    let shown = false;
-    function maybeShow() {
-      if (!shown && window.scrollY > 300) {
-        shown = true;
-        showWppFloat();
-      }
-    }
-    window.addEventListener('scroll', maybeShow, { passive: true });
-    setTimeout(() => { if (!shown) { shown = true; showWppFloat(); } }, 3000);
-  }
-
-  /* ----------------------------------------------------------------
-     HERO — IMAGEM DE FUNDO DINÂMICA
-  ---------------------------------------------------------------- */
-  const heroTexture = document.querySelector('.hero__texture');
-  if (heroTexture) {
-    const heroBg = new Image();
-    heroBg.src = 'assets/images/hero.jpg';
-    heroBg.onload = function () {
-      heroTexture.style.backgroundImage = `url('assets/images/hero.jpg')`;
-      heroTexture.style.backgroundSize = 'cover';
-      heroTexture.style.backgroundPosition = 'center';
-    };
-  }
-
-  /* ----------------------------------------------------------------
-     CATÁLOGO — SISTEMA DE CATEGORIAS
-     Dados de cada categoria com seus produtos
+     CONSTANTES
   ---------------------------------------------------------------- */
   const WPP_BASE = 'https://wa.me/5512988520409?text=';
 
+  const WPP_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+
+  /* ----------------------------------------------------------------
+     DADOS DO CATÁLOGO
+  ---------------------------------------------------------------- */
   const CATEGORIAS = {
+
     selas: {
       titulo: 'Selas',
       produtos: [
@@ -188,6 +56,7 @@
         },
       ]
     },
+
     arreios: {
       titulo: 'Arreios',
       produtos: [
@@ -220,6 +89,7 @@
         },
       ]
     },
+
     cintos: {
       titulo: 'Cintos',
       produtos: [
@@ -252,6 +122,7 @@
         },
       ]
     },
+
     bolsas: {
       titulo: 'Bolsas & Acessórios',
       produtos: [
@@ -284,6 +155,7 @@
         },
       ]
     },
+
     consertos: {
       titulo: 'Consertos & Restauração',
       produtos: [
@@ -316,6 +188,7 @@
         },
       ]
     },
+
     sobmedida: {
       titulo: 'Sob Medida',
       produtos: [
@@ -348,25 +221,34 @@
         },
       ]
     },
+
   };
 
   /* ----------------------------------------------------------------
-     OVERLAY — ABERTURA E FECHAMENTO
+     SELETORES
   ---------------------------------------------------------------- */
-  const overlay      = document.getElementById('categoriaOverlay');
-  const backBtn      = document.getElementById('categoriaBack');
-  const overlayTit   = document.getElementById('categoriaTitulo');
-  const produtosWrap = document.getElementById('categoriaProdutos');
+  const tabs        = document.querySelectorAll('.cat-tab');
+  const produtosEl  = document.getElementById('catProdutos');
+  const tituloEl    = document.getElementById('catTitulo');
+  const countEl     = document.getElementById('catCount');
 
-  const WPP_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
-
-  function buildProdutoCard(p) {
+  /* ----------------------------------------------------------------
+     CONSTRUTOR DE CARD
+  ---------------------------------------------------------------- */
+  function buildCard(p) {
     return `
       <article class="produto-card">
         <div class="produto-card__img-wrap">
-          <img src="${p.img}" alt="${p.nome}" class="produto-card__img" loading="lazy"
-               onerror="this.closest('.produto-card__img-wrap').classList.add('img-placeholder')" />
-          ${p.badge ? `<div class="produto-card__badge ${p.badgeMod}">${p.badge}</div>` : ''}
+          <img
+            src="${p.img}"
+            alt="${p.nome}"
+            class="produto-card__img"
+            loading="lazy"
+            onerror="this.closest('.produto-card__img-wrap').classList.add('img-placeholder')"
+          />
+          ${p.badge
+            ? `<div class="produto-card__badge ${p.badgeMod}">${p.badge}</div>`
+            : ''}
         </div>
         <div class="produto-card__body">
           <h3 class="produto-card__title">${p.nome}</h3>
@@ -374,68 +256,103 @@
           <ul class="produto-card__details">
             ${p.detalhes.map(d => `<li>${d}</li>`).join('')}
           </ul>
-          <a href="${WPP_BASE}${p.wpp}" class="btn btn--produto" target="_blank" rel="noopener noreferrer">
+          <a
+            href="${WPP_BASE}${p.wpp}"
+            class="btn btn--produto"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             ${WPP_SVG} Tenho interesse
           </a>
         </div>
       </article>`;
   }
 
-  function openCategoria(slug) {
+  /* ----------------------------------------------------------------
+     RENDERIZAR CATEGORIA
+  ---------------------------------------------------------------- */
+  function renderCategoria(slug) {
     const cat = CATEGORIAS[slug];
-    if (!cat) return;
+    if (!cat) {
+      // Slug inválido: cai na primeira categoria disponível
+      const primeiroSlug = Object.keys(CATEGORIAS)[0];
+      renderCategoria(primeiroSlug);
+      return;
+    }
 
-    overlayTit.textContent = cat.titulo;
-    produtosWrap.innerHTML = cat.produtos.map(buildProdutoCard).join('');
+    // Atualiza título e contagem
+    tituloEl.textContent = cat.titulo;
+    const n = cat.produtos.length;
+    countEl.textContent = `${n} produto${n !== 1 ? 's' : ''} nesta categoria`;
 
-    overlay.removeAttribute('hidden');
-    // Força reflow para a transição funcionar
-    overlay.getBoundingClientRect();
-    overlay.classList.add('open');
+    // Injeta cards (forçar reflow para a animação reiniciar)
+    produtosEl.innerHTML = '';
+    // pequeno timeout para o browser registrar a mudança antes da animação
+    requestAnimationFrame(() => {
+      produtosEl.innerHTML = cat.produtos.map(buildCard).join('');
+    });
 
-    // Impede scroll do body
-    document.body.style.overflow = 'hidden';
-    overlay.scrollTop = 0;
+    // Atualiza tabs
+    tabs.forEach(tab => {
+      const isActive = tab.dataset.cat === slug;
+      tab.classList.toggle('active', isActive);
+      tab.setAttribute('aria-selected', String(isActive));
+    });
 
-    // Foco acessível
-    backBtn.focus();
+    // Atualiza <title> da aba do navegador
+    document.title = `${cat.titulo} | Catálogo | Selaria & Casa de Couro Santos`;
 
-    // Fecha com ESC
-    document.addEventListener('keydown', handleOverlayEsc);
+    // Atualiza URL sem recarregar a página
+    const url = new URL(window.location.href);
+    url.searchParams.set('c', slug);
+    history.pushState({ categoria: slug }, '', url.toString());
+
+    // Scroll suave até a área de conteúdo (sem ultrapassar as tabs)
+    const tabsWrap = document.querySelector('.cat-tabs-wrap');
+    if (tabsWrap) {
+      const tabsBottom = tabsWrap.getBoundingClientRect().bottom + window.scrollY;
+      if (window.scrollY > tabsBottom) {
+        window.scrollTo({ top: tabsBottom - 10, behavior: 'smooth' });
+      }
+    }
   }
-
-  function closeCategoria() {
-    overlay.classList.remove('open');
-    document.body.style.overflow = '';
-    document.removeEventListener('keydown', handleOverlayEsc);
-
-    // Aguarda transição antes de ocultar
-    overlay.addEventListener('transitionend', () => {
-      overlay.setAttribute('hidden', '');
-    }, { once: true });
-  }
-
-  function handleOverlayEsc(e) {
-    if (e.key === 'Escape') closeCategoria();
-  }
-
-  // Clique nos cards de categoria
-  document.querySelectorAll('.categoria-card[data-categoria]').forEach(card => {
-    card.addEventListener('click', () => openCategoria(card.dataset.categoria));
-  });
-
-  // Botão voltar
-  backBtn.addEventListener('click', closeCategoria);
 
   /* ----------------------------------------------------------------
-     LAZY LOAD FALLBACK — imagens de produto
+     INICIALIZAÇÃO — lê ?c= da URL
   ---------------------------------------------------------------- */
-  document.querySelectorAll('.categoria-card__img').forEach(img => {
-    img.addEventListener('error', function () {
-      const wrap = this.closest('.categoria-card__img-wrap');
-      if (wrap) wrap.classList.add('img-placeholder');
-      this.style.display = 'none';
-    });
+  const params     = new URLSearchParams(window.location.search);
+  const slugInicial = params.get('c') || Object.keys(CATEGORIAS)[0];
+  renderCategoria(slugInicial);
+
+  /* ----------------------------------------------------------------
+     EVENTOS DE TAB
+  ---------------------------------------------------------------- */
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => renderCategoria(tab.dataset.cat));
   });
+
+  /* ----------------------------------------------------------------
+     NAVEGAÇÃO COM BOTÃO VOLTAR/AVANÇAR DO BROWSER
+  ---------------------------------------------------------------- */
+  window.addEventListener('popstate', (e) => {
+    const slug = (e.state && e.state.categoria)
+      ? e.state.categoria
+      : new URLSearchParams(window.location.search).get('c')
+      || Object.keys(CATEGORIAS)[0];
+    renderCategoria(slug);
+  });
+
+  /* ----------------------------------------------------------------
+     LAZY LOAD FALLBACK — placeholder para imagens de produto
+  ---------------------------------------------------------------- */
+  produtosEl.addEventListener('error', function (e) {
+    if (e.target.tagName === 'IMG') {
+      const wrap = e.target.closest('.produto-card__img-wrap');
+      if (wrap) {
+        wrap.classList.add('img-placeholder');
+        e.target.style.display = 'none';
+      }
+    }
+  }, true);
 
 })();

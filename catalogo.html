@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Catálogo de produtos da Selaria & Casa de Couro Santos — selas, arreios, cintos, bolsas e acessórios artesanais em couro legítimo. São José dos Campos/SP." />
+  <meta name="keywords" content="selaria, couro, sela, arreio, cinto, bolsa couro, São José dos Campos, artesanal, sob medida" />
+  <meta property="og:title" content="Catálogo | Selaria & Casa de Couro Santos" />
+  <meta property="og:description" content="Selas, arreios, cintos, bolsas e muito mais — todos feitos à mão com couro legítimo." />
+  <meta property="og:type" content="website" />
+  <title>Catálogo | Selaria & Casa de Couro Santos</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ================================================================
+       CATÁLOGO — estilos exclusivos desta página
+    ================================================================ */
+
+    /* ── Hero da página ── */
+    .cat-hero {
+      background: var(--cor-couro-esc);
+      padding: calc(var(--header-h) + var(--sp-lg)) 0 var(--sp-lg);
+      position: relative;
+      overflow: hidden;
+    }
+    .cat-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('assets/images/hero.jpg') center / cover no-repeat;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+    .cat-hero .container { position: relative; z-index: 1; }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: var(--sp-sm);
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+    }
+    .breadcrumb a {
+      color: var(--cor-ouro-claro);
+      text-decoration: none;
+      transition: color var(--transicao);
+    }
+    .breadcrumb a:hover { color: var(--cor-branco); }
+    .breadcrumb__sep,
+    .breadcrumb__current { color: var(--cor-bege-esc); }
+
+    .cat-hero__label {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cor-ouro);
+      margin-bottom: 0.6rem;
+    }
+    .cat-hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 5vw, 3rem);
+      font-weight: 700;
+      color: var(--cor-branco);
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+    .cat-hero__sub {
+      font-size: 1rem;
+      color: var(--cor-bege-esc);
+      max-width: 520px;
+      line-height: 1.6;
+    }
+
+    /* ── Tabs de categoria (sticky) ── */
+    .cat-tabs-wrap {
+      background: var(--cor-bege);
+      border-bottom: 2px solid var(--cor-bege-med);
+      position: sticky;
+      top: var(--header-h);
+      z-index: 90;
+      box-shadow: 0 3px 16px rgba(78, 44, 24, 0.10);
+    }
+    .cat-tabs {
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    .cat-tabs::-webkit-scrollbar { display: none; }
+
+    .cat-tab {
+      flex-shrink: 0;
+      padding: 1rem 1.25rem 0.9rem;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--cor-texto-sec);
+      cursor: pointer;
+      transition: color var(--transicao), border-color var(--transicao);
+      white-space: nowrap;
+      margin-bottom: -2px;
+    }
+    .cat-tab:hover { color: var(--cor-couro); }
+    .cat-tab.active {
+      color: var(--cor-couro-esc);
+      border-bottom-color: var(--cor-ouro);
+    }
+
+    /* ── Área de conteúdo ── */
+    .cat-content {
+      padding: var(--sp-lg) 0 var(--sp-xl);
+      background: var(--cor-bege);
+      min-height: 55vh;
+    }
+    .cat-content__header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: var(--sp-md);
+      padding-bottom: var(--sp-sm);
+      border-bottom: 1px solid var(--cor-bege-esc);
+    }
+    .cat-content__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      color: var(--cor-terra);
+      font-weight: 700;
+    }
+    .cat-content__count {
+      font-size: 0.8125rem;
+      color: var(--cor-texto-ter);
+      font-style: italic;
+    }
+
+    /* ── Grid de produtos ── */
+    .cat-produtos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: var(--sp-md);
+    }
+    @media (max-width: 640px) {
+      .cat-produtos { grid-template-columns: 1fr; }
+    }
+
+    /* Animação de entrada staggered */
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .cat-produtos .produto-card {
+      opacity: 0;
+      animation: cardIn 0.4s ease forwards;
+    }
+    .cat-produtos .produto-card:nth-child(1) { animation-delay: 0.04s; }
+    .cat-produtos .produto-card:nth-child(2) { animation-delay: 0.10s; }
+    .cat-produtos .produto-card:nth-child(3) { animation-delay: 0.16s; }
+    .cat-produtos .produto-card:nth-child(4) { animation-delay: 0.22s; }
+    .cat-produtos .produto-card:nth-child(5) { animation-delay: 0.28s; }
+    .cat-produtos .produto-card:nth-child(6) { animation-delay: 0.34s; }
+
+    /* ── CTA dentro do catálogo ── */
+    .cat-cta {
+      text-align: center;
+      padding: var(--sp-md) var(--sp-lg);
+      background: var(--cor-bege-med);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--cor-bege-esc);
+      margin-top: var(--sp-lg);
+    }
+    .cat-cta__text {
+      font-size: 1rem;
+      color: var(--cor-texto-sec);
+      margin-bottom: var(--sp-sm);
+    }
+    .cat-cta__text strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--cor-terra);
+      margin-bottom: 0.4rem;
+    }
+
+    /* nav__link--active para esta página */
+    .nav__link--active {
+      color: var(--cor-ouro-claro) !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       HEADER FIXO (idêntico ao index.html)
+  ============================================================ -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+
+      <!-- Logo -->
+      <a href="index.html" class="header__logo">
+        <span class="logo__icon">
+          <img src="assets/images/Design sem nome (2)(1).png" alt="Logo Selaria Santos">
+        </span>
+        <span class="logo__text">
+          <span class="logo__name">Selaria Santos</span>
+          <span class="logo__sub">Casa de Couro</span>
+        </span>
+      </a>
+
+      <!-- Nav desktop -->
+      <nav class="header__nav" id="nav" aria-label="Navegação principal">
+        <a href="index.html#sobre"       class="nav__link">Sobre</a>
+        <a href="catalogo.html"          class="nav__link nav__link--active" aria-current="page">Catálogo</a>
+        <a href="index.html#diferenciais" class="nav__link">Diferenciais</a>
+        <a href="index.html#contato"     class="nav__link">Contato</a>
+      </nav>
+
+      <!-- Botão WhatsApp no header -->
+      <a
+        href="https://wa.me/5512988520409?text=Ol%C3%A1%20M%C3%A1rcia!%20Vim%20pelo%20cat%C3%A1logo%20do%20site%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20produtos."
+        class="btn btn--whatsapp header__whatsapp"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Falar no WhatsApp"
+      >
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span>WhatsApp</span>
+      </a>
+
+      <!-- Hamburguer mobile -->
+      <button class="header__burger" id="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav">
+        <span></span><span></span><span></span>
+      </button>
+
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ============================================================
+         HERO DA PÁGINA DE CATÁLOGO
+    ============================================================ -->
+    <section class="cat-hero" aria-label="Catálogo de produtos">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Localização na página">
+          <a href="index.html">← Início</a>
+          <span class="breadcrumb__sep">/</span>
+          <span class="breadcrumb__current">Catálogo</span>
+        </nav>
+        <p class="cat-hero__label">Produtos Artesanais</p>
+        <h1 class="cat-hero__title">Catálogo de Produtos</h1>
+        <p class="cat-hero__sub">
+          Selecione uma categoria abaixo para ver os produtos disponíveis
+          e falar direto com a Márcia pelo WhatsApp.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TABS DE CATEGORIA (sticky abaixo do header)
+    ============================================================ -->
+    <div class="cat-tabs-wrap" role="navigation" aria-label="Filtro por categoria">
+      <div class="cat-tabs" id="catTabs" role="tablist" aria-label="Categorias">
+        <button class="cat-tab" role="tab" data-cat="selas"      aria-selected="false">Selas</button>
+        <button class="cat-tab" role="tab" data-cat="arreios"    aria-selected="false">Arreios</button>
+        <button class="cat-tab" role="tab" data-cat="cintos"     aria-selected="false">Cintos</button>
+        <button class="cat-tab" role="tab" data-cat="bolsas"     aria-selected="false">Bolsas &amp; Acessórios</button>
+        <button class="cat-tab" role="tab" data-cat="consertos"  aria-selected="false">Consertos</button>
+        <button class="cat-tab" role="tab" data-cat="sobmedida"  aria-selected="false">Sob Medida</button>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         ÁREA DE PRODUTOS
+    ============================================================ -->
+    <section class="cat-content" id="catContent" aria-live="polite" aria-label="Produtos da categoria selecionada">
+      <div class="container">
+
+        <div class="cat-content__header">
+          <h2 class="cat-content__title" id="catTitulo">—</h2>
+          <p class="cat-content__count" id="catCount"></p>
+        </div>
+
+        <!-- Cards injetados pelo catalogo.js -->
+        <div class="cat-produtos" id="catProdutos"></div>
+
+        <!-- CTA inferior -->
+        <div class="cat-cta">
+          <p class="cat-cta__text">
+            <strong>Não encontrou o que procura?</strong>
+            A Márcia também faz peças sob medida — é só contar o que você tem em mente.
+          </p>
+          <a
+            href="https://wa.me/5512988520409?text=Ol%C3%A1%20M%C3%A1rcia!%20Vim%20pelo%20cat%C3%A1logo%20e%20n%C3%A3o%20encontrei%20o%20que%20preciso.%20Pode%20me%20ajudar%3F"
+            class="btn btn--primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Falar com a Márcia
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="footer__name">Selaria &amp; Casa de Couro Santos</span>
+        <span class="footer__address">Rua Anselmo Carnevali, 167 · Alto da Ponte · São José dos Campos/SP</span>
+      </div>
+      <div class="footer__copy">
+        <p>© 2025 Selaria &amp; Casa de Couro Santos. Todos os direitos reservados.</p>
+        <p>Segunda a Sexta · 07h às 18h · (12) 98852-0409</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       BOTÃO FLUTUANTE WHATSAPP
+  ============================================================ -->
+  <div class="whatsapp-float-wrap">
+    <span class="whatsapp-float__hint" aria-hidden="true">falar com a marcia</span>
+    <a
+      href="https://wa.me/5512988520409?text=Ol%C3%A1%20M%C3%A1rcia!%20Vim%20pelo%20cat%C3%A1logo%20do%20site%20e%20gostaria%20de%20falar%20sobre%20um%20produto."
+      class="whatsapp-float"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Falar no WhatsApp com a Márcia"
+      title="Falar no WhatsApp"
+    >
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span class="whatsapp-float__label">Falar agora</span>
+    </a>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/catalogo.js"></script>
+</body>
+</html>
