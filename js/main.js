@@ -136,17 +136,126 @@
   }
 
   /* ----------------------------------------------------------------
-     HERO — IMAGEM DE FUNDO DINÂMICA
+     HERO — VÍDEO + REVEAL GSAP
   ---------------------------------------------------------------- */
-  const heroTexture = document.querySelector('.hero__texture');
-  if (heroTexture) {
-    const heroBg = new Image();
-    heroBg.src = 'assets/images/hero.jpg';
-    heroBg.onload = function () {
-      heroTexture.style.backgroundImage = `url('assets/images/hero.jpg')`;
-      heroTexture.style.backgroundSize = 'cover';
-      heroTexture.style.backgroundPosition = 'center';
+  const heroSection = document.querySelector('.hero');
+  const heroVideo   = document.querySelector('.hero__video');
+  const heroScroll  = document.getElementById('heroScroll');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (heroVideo && heroSection) {
+    const markVideoReady = () => heroSection.classList.add('hero--video-ready');
+
+    heroVideo.addEventListener('canplay', markVideoReady, { once: true });
+    heroVideo.addEventListener('playing', markVideoReady, { once: true });
+
+    heroVideo.play().catch(() => {
+      /* Autoplay bloqueado ou fonte indisponível — textura permanece visível */
+    });
+  }
+
+  function initHeroReveal() {
+    if (!heroSection || typeof gsap === 'undefined') return;
+
+    const eyebrow  = document.querySelector('.hero__eyebrow');
+    const titleLines = document.querySelectorAll('.hero__title-line > span');
+    const sub      = document.querySelector('.hero__sub');
+    const actions  = document.querySelector('.hero__actions');
+    const trustSpans = document.querySelectorAll('.hero__trust span');
+    const overlay  = document.querySelector('.hero__overlay');
+    const video    = document.querySelector('.hero__video');
+
+    const showAll = () => {
+      [eyebrow, sub, actions, heroScroll].forEach(el => {
+        if (el) { el.style.visibility = 'visible'; el.style.opacity = '1'; }
+      });
+      titleLines.forEach(el => { el.style.visibility = 'visible'; el.style.transform = 'none'; });
+      trustSpans.forEach(el => { el.style.visibility = 'visible'; el.style.opacity = '1'; });
     };
+
+    if (reducedMotion) {
+      showAll();
+      return;
+    }
+
+    gsap.set([eyebrow, sub, actions, ...titleLines, ...trustSpans], { visibility: 'visible' });
+    if (heroScroll) gsap.set(heroScroll, { visibility: 'visible' });
+
+    const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
+    if (video) {
+      tl.fromTo(video,
+        { scale: 1.14 },
+        { scale: 1.08, duration: 9, ease: 'power1.inOut' },
+        0
+      );
+    }
+
+    if (overlay) {
+      tl.fromTo(overlay,
+        { opacity: 0.35 },
+        { opacity: 1, duration: 2.8, ease: 'power2.inOut' },
+        0
+      );
+    }
+
+    tl.from(eyebrow,
+      { yPercent: 110, opacity: 0, duration: 1.3 },
+      1.1
+    )
+    .from(titleLines,
+      { yPercent: 115, opacity: 0, duration: 1.4, stagger: 0.18 },
+      1.35
+    )
+    .from(sub,
+      { yPercent: 100, opacity: 0, duration: 1.2 },
+      '-=0.7'
+    )
+    .from(actions,
+      { y: 36, opacity: 0, duration: 1.1 },
+      '-=0.55'
+    )
+    .from(trustSpans,
+      { y: 20, opacity: 0, duration: 0.9, stagger: 0.09 },
+      '-=0.45'
+    );
+
+    if (heroScroll) {
+      tl.from(heroScroll,
+        { y: 16, opacity: 0, duration: 1 },
+        '-=0.2'
+      );
+    }
+  }
+
+  function initHeroScrollHide() {
+    if (!heroScroll || typeof gsap === 'undefined') return;
+
+    let hidden = false;
+
+    function hideIndicator() {
+      if (hidden || window.scrollY < 40) return;
+      hidden = true;
+      gsap.to(heroScroll, {
+        opacity: 0,
+        y: 12,
+        duration: 0.6,
+        ease: 'power2.in',
+        onComplete: () => heroScroll.classList.add('is-hidden')
+      });
+    }
+
+    window.addEventListener('scroll', hideIndicator, { passive: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initHeroReveal();
+      initHeroScrollHide();
+    });
+  } else {
+    initHeroReveal();
+    initHeroScrollHide();
   }
 
   /* ----------------------------------------------------------------

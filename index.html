@@ -69,21 +69,36 @@
     ============================================================ -->
     <section class="hero" id="inicio" aria-label="Apresentação">
       <div class="hero__bg" aria-hidden="true">
+        <video
+          class="hero__video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+        >
+          <source src="assets/videos/hero.mp4" type="video/mp4" />
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-person-sewing-leather-40896-large.mp4" type="video/mp4" />
+        </video>
         <div class="hero__texture"></div>
         <div class="hero__overlay"></div>
       </div>
 
       <div class="container hero__content">
-        <p class="hero__eyebrow">Artesanato em couro · São José dos Campos</p>
+        <div class="hero__reveal">
+          <p class="hero__eyebrow">Artesanato em couro · São José dos Campos</p>
+        </div>
         <h1 class="hero__title">
-          Couro de verdade,<br />
-          <em>todos os produtos</em><br />
-          feito à mãos
+          <span class="hero__title-line"><span>Couro de verdade,</span></span>
+          <span class="hero__title-line"><span><em>todos os produtos</em></span></span>
+          <span class="hero__title-line"><span>feito à mãos</span></span>
         </h1>
-        <p class="hero__sub">
-          Selas, arreios, cintos e acessórios com couro legítimo de alta qualidade.
-          Atendimento pessoal — sem pressa, com cuidado.
-        </p>
+        <div class="hero__reveal">
+          <p class="hero__sub">
+            Selas, arreios, cintos e acessórios com couro legítimo de alta qualidade.
+            Atendimento pessoal — sem pressa, com cuidado.
+          </p>
+        </div>
         <div class="hero__actions">
           <a
             href="https://wa.me/5512988520409?text=Ol%C3%A1%20M%C3%A1rcia!%20Vim%20pelo%20site%20e%20quero%20fazer%20um%20pedido%20ou%20tirar%20uma%20d%C3%BAvida."
@@ -109,8 +124,9 @@
       </div>
 
       <!-- Scroll indicator -->
-      <div class="hero__scroll" aria-hidden="true">
-        <span></span>
+      <div class="hero__scroll" id="heroScroll" aria-hidden="true">
+        <span class="hero__scroll-text">Descer</span>
+        <span class="hero__scroll-line"></span>
       </div>
     </section>
 
@@ -520,6 +536,7 @@
     </a>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
