@@ -193,6 +193,15 @@
       titulo: 'Sob Medida',
       produtos: [
         {
+          nome: 'Cinto para Coluna',
+          img: 'assets/images/Cinto%20coluna.jpg',
+          desc: 'Cinto ortopédico em couro legítimo para suporte lombar. Acabamento artesanal com costura reforçada, interior acolchoado e fivela metálica — feito sob medida para o seu conforto.',
+          detalhes: ['Couro legítimo com costura reforçada', 'Interior acolchoado para conforto', 'Medidas personalizadas'],
+          badge: 'Sob medida',
+          badgeMod: 'produto-card__badge--gold',
+          wpp: encodeURIComponent('Olá Márcia! Tenho interesse no CINTO PARA COLUNA de couro. Pode me passar mais informações e valores?'),
+        },
+        {
           nome: 'Peça Personalizada',
           img: 'assets/images/personalizado.jpg',
           desc: 'Tem uma ideia na cabeça? A Márcia faz. Descreva o que você quer — o couro, o tamanho, os detalhes — e receba uma peça única.',
