@@ -1,0 +1,6 @@
+# Selaria & Casa de Couro Santos
+User-agent: *
+Allow: /
+
+# ⚠️ Atualize o domínio abaixo após publicar
+Sitemap: https://www.selariasantos.com.br/sitemap.xml

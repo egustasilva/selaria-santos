@@ -1,0 +1,14 @@
+{
+  "name": "Selaria & Casa de Couro Santos",
+  "short_name": "Selaria Santos",
+  "description": "Artesanato em couro legítimo — selas, arreios, cintos, bolsas, consertos e peças sob medida em São José dos Campos/SP.",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5EEE3",
+  "theme_color": "#3D2010",
+  "icons": [
+    { "src": "assets/images/favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "assets/images/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
