@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Conserto e Restauração de Couro em São José dos Campos | Selaria Santos</title>
+  <meta name="description" content="Costura solta, couro ressecado, fivela quebrada? A Márcia avalia sua peça de couro pela foto, sem compromisso. Sela, arreio, cinto, bolsa. São José dos Campos/SP." />
+  <!-- Página de tráfego pago: noindex para não competir com a home nos buscadores -->
+  <meta name="robots" content="noindex, follow" />
+  <meta name="theme-color" content="#3D2010" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Sua peça de couro tem conserto | Selaria Santos" />
+  <meta property="og:description" content="Manda a foto no WhatsApp que a Márcia avalia, sem compromisso. Conserto e restauração de couro em São José dos Campos." />
+  <meta property="og:image" content="https://www.selariasantos.com.br/assets/images/og-image.jpg" />
+  <meta property="og:locale" content="pt_BR" />
+
+  <link rel="icon" href="assets/images/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===== Estilos exclusivos da landing de campanha ===== */
+    .lp-bar {
+      position: fixed; inset: 0 0 auto 0; z-index: 900; height: var(--header-h);
+      background: var(--cor-terra); display: flex; align-items: center;
+    }
+    .lp-bar__inner { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .lp-bar__logo { display: flex; align-items: center; gap: 0.6rem; color: var(--cor-branco); }
+    .lp-bar__logo img { width: 46px; height: 46px; }
+    .lp-bar__name { font-family: var(--font-display); font-size: 1rem; font-weight: 600; color: var(--cor-branco); }
+
+    .lp-hero {
+      position: relative; padding: calc(var(--header-h) + var(--sp-xl)) 0 var(--sp-xl);
+      background: var(--cor-couro-esc); overflow: hidden;
+    }
+    .lp-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: url('assets/images/hero.webp') center/cover no-repeat; opacity: 0.22;
+    }
+    .lp-hero::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(46,26,14,0.92), rgba(78,44,24,0.82));
+    }
+    .lp-hero .container { position: relative; z-index: 1; max-width: 760px; }
+    .lp-hero__eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cor-ouro-claro); margin-bottom: 1rem; }
+    .lp-hero__title { font-family: var(--font-display); font-size: clamp(2.2rem, 5.5vw, 3.8rem); font-weight: 700; line-height: 1.12; color: var(--cor-branco); margin-bottom: 1.25rem; }
+    .lp-hero__title em { font-style: italic; color: var(--cor-ouro-claro); }
+    .lp-hero__sub { font-size: clamp(1rem, 2vw, 1.2rem); color: rgba(253,250,246,0.88); line-height: 1.7; margin-bottom: 2rem; max-width: 560px; }
+    .lp-hero .hero__trust { margin-top: 2rem; }
+
+    .lp-sec { padding-block: var(--sp-xl); }
+    .lp-sec--bege { background: var(--cor-bege); }
+    .lp-sec--branco { background: var(--cor-branco); }
+
+    .lp-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; max-width: 760px; margin: 0 auto; }
+    .lp-list li {
+      display: flex; align-items: flex-start; gap: 0.7rem; padding: 1.1rem 1.3rem;
+      background: var(--cor-branco); border: 1px solid var(--cor-bege-esc); border-radius: var(--radius-md);
+      font-size: 0.95rem; color: var(--cor-texto-sec); line-height: 1.55;
+    }
+    .lp-sec--branco .lp-list li { background: var(--cor-bege); }
+    .lp-list svg { flex-shrink: 0; color: var(--cor-ouro); margin-top: 2px; }
+    .lp-list strong { color: var(--cor-terra); display: block; font-family: var(--font-display); font-weight: 600; }
+
+    .lp-final { background: var(--cor-couro); text-align: center; }
+    .lp-final__title { font-family: var(--font-display); font-size: clamp(1.8rem,4vw,2.6rem); color: var(--cor-branco); margin-bottom: 0.75rem; }
+    .lp-final__sub { color: rgba(253,250,246,0.85); margin-bottom: 1.75rem; }
+    .lp-final__info { margin-top: 1.75rem; color: rgba(253,250,246,0.8); font-size: 0.9rem; line-height: 1.8; }
+    .lp-final__info a { color: var(--cor-ouro-claro); font-weight: 700; }
+
+    @media (max-width: 640px) { .lp-list { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#lp-conteudo">Pular para o conteúdo</a>
+
+  <!-- Barra superior mínima (sem menu — foco total na conversão) -->
+  <header class="lp-bar">
+    <div class="container lp-bar__inner">
+      <a href="index.html" class="lp-bar__logo">
+        <img src="assets/images/logo.webp" alt="Selaria Santos" width="46" height="46" />
+        <span class="lp-bar__name">Selaria Santos</span>
+      </a>
+      <a href="https://wa.me/5512988520409?text=Ol%C3%A1%20M%C3%A1rcia!%20Vim%20pelo%20an%C3%BAncio%20de%20CONSERTO%20e%20tenho%20uma%20pe%C3%A7a%20de%20couro%20pra%20avaliar.%20Posso%20mandar%20uma%20foto%3F"
+         class="btn btn--whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span>WhatsApp</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="lp-conteudo">
+
+    <!-- HERO -->
+    <section class="lp-hero" aria-label="Conserto e restauração de couro">
+      <div class="container">
+        <p class="lp-hero__eyebrow">Conserto e restauração de couro · São José dos Campos</p>
+        <h1 class="lp-hero__title">Sua peça de couro<br /><em>tem conserto.</em></h1>
+        <p class="lp-hero__sub">
+          Costura solta, couro ressecado, fivela quebrada, alça arrebentada?
+          Antes de jogar fora, manda uma foto no WhatsApp. A Márcia avalia e te diz
+          se vale a pena — <strong>sem compromisso</strong>.
+        </p>
+        <a href="https://wa.me/5512988520409?text=Ol%C3%A1%20M%C3%A1rcia!%20Vim%20pelo%20an%C3%BAncio%20de%20CONSERTO%20e%20tenho%20uma%20pe%C3%A7a%20de%20couro%20pra%20avaliar.%20Posso%20mandar%20uma%20foto%3F"
+           class="btn btn--primary" target="_blank" rel="noopener noreferrer" style="font-size:1.05rem;padding:1rem 2rem;">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Mandar foto no WhatsApp
+        </a>
+        <div class="hero__trust">
+          <span>✓ Avaliação sem compromisso</span>
+          <span>✓ Feito à mão</span>
+          <span>✓ Loja física no Alto da Ponte</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- O QUE CONSERTAMOS -->
+    <section class="lp-sec lp-sec--bege" aria-label="O que consertamos">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__label">O que a gente resolve</p>
+          <h2 class="section__title">Quase tudo em couro <em>tem solução</em></h2>
+        </div>
+        <ul class="lp-list">
+          <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span><strong>Selas e arreios</strong>Costura, reforço, troca de fivelas e ferragens.</span></li>
+          <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span><strong>Cintos e bolsas</strong>Alças, fechos, pontos soltos e desgaste.</span></li>
+          <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span><strong>Peças antigas</strong>Restauração e hidratação de couro com história.</span></li>
+          <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span><strong>Couro ressecado</strong>Limpeza profunda, hidratação e acabamento.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- COMO FUNCIONA -->
+    <section class="lp-sec lp-sec--branco" aria-label="Como funciona">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__label">Como funciona</p>
+          <h2 class="section__title">Simples, em <em>3 passos</em></h2>
+        </div>
+        <div class="processo__grid">
+          <div class="passo-card">
+            <div class="passo-card__num" aria-hidden="true">1</div>
+            <h3 class="passo-card__title">Manda a foto</h3>
+            <p class="passo-card__text">Você envia a foto da peça pelo WhatsApp e conta o que aconteceu.</p>
+          </div>
+          <div class="passo-card">
+            <div class="passo-card__num" aria-hidden="true">2</div>
+            <h3 class="passo-card__title">Recebe a avaliação</h3>
+            <p class="passo-card__text">A Márcia te diz o que dá pra fazer, o valor e o prazo. Sem compromisso.</p>
+          </div>
+          <div class="passo-card">
+            <div class="passo-card__num" aria-hidden="true">3</div>
+            <h3 class="passo-card__title">Sua peça volta nova</h3>
+            <p class="passo-card__text">Aprovado o orçamento, a gente conserta e você retira na loja.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="lp-sec lp-final" aria-label="Falar no WhatsApp">
+      <div class="container">
+        <h2 class="lp-final__title">Manda a foto da sua peça agora</h2>
+        <p class="lp-final__sub">Leva um minuto. Quem responde é a Márcia — a mesma pessoa que vai consertar.</p>
+        <a href="https://wa.me/5512988520409?text=Ol%C3%A1%20M%C3%A1rcia!%20Vim%20pelo%20an%C3%BAncio%20de%20CONSERTO%20e%20tenho%20uma%20pe%C3%A7a%20de%20couro%20pra%20avaliar.%20Posso%20mandar%20uma%20foto%3F"
+           class="btn btn--cta" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Mandar foto no WhatsApp
+        </a>
+        <p class="lp-final__info">
+          Rua Anselmo Carnevali, 167 · Alto da Ponte · São José dos Campos/SP<br />
+          Segunda a sexta, 07h às 18h · <a href="tel:+5512988520409">(12) 98852-0409</a>
+        </p>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
