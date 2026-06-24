@@ -29,7 +29,7 @@
       produtos: [
         {
           nome: 'Sela de Vaqueiro',
-          img: 'assets/images/sela.jpg',
+          img: 'assets/images/sela.webp',
           desc: 'Sela artesanal estilo vaqueiro, em couro curtido de alta resistência. Trabalhada à mão para encaixe perfeito e durabilidade excepcional.',
           detalhes: ['Couro curtido de alta resistência', 'Acabamento manual caprichado', 'Ajuste personalizado disponível'],
           badge: 'Mais pedido',
@@ -38,7 +38,7 @@
         },
         {
           nome: 'Sela Inglesa',
-          img: 'assets/images/sela.jpg',
+          img: 'assets/images/sela.webp',
           desc: 'Sela no estilo inglês, leve e de encaixe preciso. Ideal para hipismo e equitação clássica com couro de primeira linha.',
           detalhes: ['Couro macio e resistente', 'Design clássico e elegante', 'Pode ser feita sob medida'],
           badge: '',
@@ -47,7 +47,7 @@
         },
         {
           nome: 'Sela Personalizada',
-          img: 'assets/images/personalizado.jpg',
+          img: 'assets/images/personalizado.webp',
           desc: 'Sela 100% personalizada conforme suas especificações: medidas, acabamentos, gravações e cor do couro do seu jeito.',
           detalhes: ['Projeto junto com o cliente', 'Gravação e bordado opcional', 'Medidas exatas do cavaleiro'],
           badge: 'Sob medida',
@@ -62,7 +62,7 @@
       produtos: [
         {
           nome: 'Arreio Completo',
-          img: 'assets/images/arreio.jpg',
+          img: 'assets/images/arreio.webp',
           desc: 'Conjunto completo de arreio em couro selecionado, com todas as peças necessárias para equipar seu animal com segurança e durabilidade.',
           detalhes: ['Couro curtido e selecionado', 'Peças costuradas a mão', 'Ferragens de qualidade'],
           badge: '',
@@ -71,7 +71,7 @@
         },
         {
           nome: 'Cabeçada',
-          img: 'assets/images/arreio.jpg',
+          img: 'assets/images/arreio.webp',
           desc: 'Cabeçadas em couro legítimo para cavalos e outros animais. Resistentes, confortáveis e com acabamento artesanal.',
           detalhes: ['Vários tamanhos disponíveis', 'Ajuste regulável', 'Gravação do nome do animal'],
           badge: '',
@@ -80,7 +80,7 @@
         },
         {
           nome: 'Rédeas e Acessórios',
-          img: 'assets/images/arreio.jpg',
+          img: 'assets/images/arreio.webp',
           desc: 'Rédeas, peitorais, grupeiras e demais acessórios equestres feitos com o mesmo cuidado e qualidade de toda a nossa linha.',
           detalhes: ['Diversos modelos', 'Material resistente', 'Pode complementar seu arreio'],
           badge: '',
@@ -95,7 +95,7 @@
       produtos: [
         {
           nome: 'Cinto Liso',
-          img: 'assets/images/cinto.jpg',
+          img: 'assets/images/cinto.webp',
           desc: 'Cinto em couro legítimo com acabamento liso e elegante. Disponível em diversas espessuras e larguras, com fivela a escolher.',
           detalhes: ['Couro legítimo nacional', 'Fivelas em diversas opções', 'Sob medida sem custo extra'],
           badge: 'Sob medida',
@@ -104,7 +104,7 @@
         },
         {
           nome: 'Cinto com Bordado',
-          img: 'assets/images/cinto.jpg',
+          img: 'assets/images/cinto.webp',
           desc: 'Cinto artesanal com bordado e trabalhos manuais exclusivos. Cada peça é única — um verdadeiro objeto de artesanato.',
           detalhes: ['Bordados feitos à mão', 'Motivos personalizados', 'Presente sofisticado'],
           badge: 'Artesanal',
@@ -113,7 +113,7 @@
         },
         {
           nome: 'Cinto de Montaria',
-          img: 'assets/images/cinto.jpg',
+          img: 'assets/images/cinto.webp',
           desc: 'Cinturão robusto de montaria, com couro mais espesso e fivela reforçada. Feito para aguentar o trabalho pesado no campo.',
           detalhes: ['Couro espesso e resistente', 'Fivela reforçada', 'Ideal para o trabalho no campo'],
           badge: '',
@@ -128,7 +128,7 @@
       produtos: [
         {
           nome: 'Bolsa de Couro',
-          img: 'assets/images/bolsa.jpg',
+          img: 'assets/images/bolsa.webp',
           desc: 'Bolsas femininas e masculinas em couro legítimo, com costura manual e acabamento caprichado. Durabilidade de décadas.',
           detalhes: ['Couro legítimo de qualidade', 'Costura manual reforçada', 'Vários modelos e tamanhos'],
           badge: '',
@@ -137,7 +137,7 @@
         },
         {
           nome: 'Carteira & Porta-documentos',
-          img: 'assets/images/bolsa.jpg',
+          img: 'assets/images/bolsa.webp',
           desc: 'Carteiras, porta-documentos e pequenos acessórios em couro fino. Práticos, elegantes e com longa vida útil.',
           detalhes: ['Couro fino e macio', 'Compartimentos bem organizados', 'Gravação do nome possível'],
           badge: '',
@@ -146,7 +146,7 @@
         },
         {
           nome: 'Acessórios de Montaria',
-          img: 'assets/images/bolsa.jpg',
+          img: 'assets/images/bolsa.webp',
           desc: 'Alforjes, porta-garrafas, saca-coisas e outros acessórios de montaria feitos para durar muito mais que os industrializados.',
           detalhes: ['Feitos para uso intenso', 'Material selecionado', 'Sob medida disponível'],
           badge: '',
@@ -161,7 +161,7 @@
       produtos: [
         {
           nome: 'Conserto de Selas e Arreios',
-          img: 'assets/images/conserto.jpg',
+          img: 'assets/images/conserto.webp',
           desc: 'Sua sela ou arreio com costura solta, couro ressecado ou ferragem quebrada? A Márcia resolve com o mesmo capricho de uma peça nova.',
           detalhes: ['Costura e reforço de peças', 'Troca de fivelas e ferragens', 'Avaliação sem compromisso'],
           badge: '',
@@ -170,7 +170,7 @@
         },
         {
           nome: 'Restauração de Peças Antigas',
-          img: 'assets/images/conserto.jpg',
+          img: 'assets/images/conserto.webp',
           desc: 'Tem aquela peça com história que merecia uma segunda vida? Restauração de peças antigas em couro, com respeito pela originalidade.',
           detalhes: ['Restauração cuidadosa', 'Hidratação e limpeza profunda', 'Peças com valor sentimental'],
           badge: 'Especial',
@@ -179,7 +179,7 @@
         },
         {
           nome: 'Conserto de Cintos e Bolsas',
-          img: 'assets/images/conserto.jpg',
+          img: 'assets/images/conserto.webp',
           desc: 'Cinto desgastado, bolsa com alça solta ou fivela partida? Trazemos de volta ao estado original sem a dor de jogar fora uma boa peça.',
           detalhes: ['Troca de alças e fechos', 'Reforço de pontos fracos', 'Hidratação e acabamento'],
           badge: '',
@@ -194,7 +194,7 @@
       produtos: [
         {
           nome: 'Cinto para Coluna',
-          img: 'assets/images/Cinto%20coluna.jpg',
+          img: 'assets/images/cinto-coluna.webp',
           desc: 'Cinto ortopédico em couro legítimo para suporte lombar. Acabamento artesanal com costura reforçada, interior acolchoado e fivela metálica — feito sob medida para o seu conforto.',
           detalhes: ['Couro legítimo com costura reforçada', 'Interior acolchoado para conforto', 'Medidas personalizadas'],
           badge: 'Sob medida',
@@ -203,7 +203,7 @@
         },
         {
           nome: 'Peça Personalizada',
-          img: 'assets/images/personalizado.jpg',
+          img: 'assets/images/personalizado.webp',
           desc: 'Tem uma ideia na cabeça? A Márcia faz. Descreva o que você quer — o couro, o tamanho, os detalhes — e receba uma peça única.',
           detalhes: ['Projeto junto com o cliente', 'Gravação e bordado personalizado', 'Presente com significado'],
           badge: 'Especial',
@@ -212,7 +212,7 @@
         },
         {
           nome: 'Presente Personalizado',
-          img: 'assets/images/personalizado.jpg',
+          img: 'assets/images/personalizado.webp',
           desc: 'Um presente em couro com o nome da pessoa, uma data especial ou um brasão de família. Algo que vai durar e ser lembrado.',
           detalhes: ['Gravação de nomes e datas', 'Embalagem especial disponível', 'Prazo combinado com antecedência'],
           badge: 'Presente',
@@ -221,7 +221,7 @@
         },
         {
           nome: 'Encomenda Especial',
-          img: 'assets/images/personalizado.jpg',
+          img: 'assets/images/personalizado.webp',
           desc: 'Peças fora do padrão — tamanhos especiais, combinações incomuns, projetos únicos. Se é de couro, a Márcia sente, analisa e faz.',
           detalhes: ['Sem limitação de modelo', 'Consulta gratuita por WhatsApp', 'Orçamento sem compromisso'],
           badge: '',

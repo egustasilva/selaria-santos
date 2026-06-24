@@ -3,19 +3,151 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Selaria & Casa de Couro Santos — Arreios, selas, cintos e acessórios de couro artesanais em São José dos Campos/SP. Atendimento pessoal da Márcia." />
-  <meta name="keywords" content="selaria, couro, sela, arreio, cinto, bolsa couro, São José dos Campos, artesanal, sob medida" />
-  <meta property="og:title" content="Selaria & Casa de Couro Santos" />
-  <meta property="og:description" content="Couro legítimo, feito à mão, com mais de anos de tradição. São José dos Campos/SP." />
-  <meta property="og:type" content="website" />
-  <title>Selaria & Casa de Couro Santos | São José dos Campos</title>
+
+  <!-- ⚠️ TROQUE o domínio abaixo pelo domínio final assim que publicar (canonical, og:url, sitemap) -->
+  <title>Selaria & Casa de Couro Santos | Artesanato em Couro em São José dos Campos</title>
+  <meta name="description" content="Selas, arreios, cintos, bolsas e acessórios em couro legítimo, feitos à mão em São José dos Campos/SP. Consertos e peças sob medida com atendimento pessoal da Márcia. Fale no WhatsApp." />
+  <meta name="author" content="Selaria & Casa de Couro Santos" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#3D2010" />
+  <link rel="canonical" href="https://www.selariasantos.com.br/" />
+
+  <!-- Geolocalização (SEO local) -->
+  <meta name="geo.region" content="BR-SP" />
+  <meta name="geo.placename" content="São José dos Campos" />
+  <meta name="geo.position" content="-23.1736;-45.8810" />
+  <meta name="ICBM" content="-23.1736, -45.8810" />
+
+  <!-- Open Graph (Facebook / WhatsApp / LinkedIn) -->
+  <meta property="og:type" content="business.business" />
+  <meta property="og:site_name" content="Selaria & Casa de Couro Santos" />
+  <meta property="og:title" content="Selaria & Casa de Couro Santos | Artesanato em Couro" />
+  <meta property="og:description" content="Couro legítimo, feito à mão. Selas, arreios, cintos, bolsas, consertos e peças sob medida em São José dos Campos/SP." />
+  <meta property="og:url" content="https://www.selariasantos.com.br/" />
+  <meta property="og:image" content="https://www.selariasantos.com.br/assets/images/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Selaria & Casa de Couro Santos — artesanato em couro legítimo" />
+  <meta property="og:locale" content="pt_BR" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Selaria & Casa de Couro Santos | Artesanato em Couro" />
+  <meta name="twitter:description" content="Couro legítimo, feito à mão, em São José dos Campos/SP. Consertos e peças sob medida." />
+  <meta name="twitter:image" content="https://www.selariasantos.com.br/assets/images/og-image.jpg" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="assets/images/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16.png" />
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+
+  <!-- Estilos e fontes -->
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="shortcut icon" href="assets/images/Design sem nome (2)(1).png" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <!-- ============================================================
+       DADOS ESTRUTURADOS — LocalBusiness (Google, Maps e IAs)
+  ============================================================ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    "@id": "https://www.selariasantos.com.br/#loja",
+    "name": "Selaria & Casa de Couro Santos",
+    "alternateName": "Selaria Santos",
+    "description": "Selaria e casa de couro artesanal em São José dos Campos/SP. Selas, arreios, cintos, bolsas, acessórios, consertos e peças de couro sob medida, feitos à mão.",
+    "url": "https://www.selariasantos.com.br/",
+    "image": "https://www.selariasantos.com.br/assets/images/og-image.jpg",
+    "logo": "https://www.selariasantos.com.br/assets/images/apple-touch-icon.png",
+    "telephone": "+55-12-98852-0409",
+    "priceRange": "$$",
+    "currenciesAccepted": "BRL",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Rua Anselmo Carnevali, 167",
+      "addressLocality": "São José dos Campos",
+      "addressRegion": "SP",
+      "postalCode": "12212-610",
+      "addressCountry": "BR"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": -23.1736,
+      "longitude": -45.8810
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "São José dos Campos"
+    },
+    "openingHoursSpecification": [{
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "07:00",
+      "closes": "18:00"
+    }],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Produtos e serviços",
+      "itemListElement": [
+        { "@type": "OfferCatalog", "name": "Selas" },
+        { "@type": "OfferCatalog", "name": "Arreios" },
+        { "@type": "OfferCatalog", "name": "Cintos" },
+        { "@type": "OfferCatalog", "name": "Bolsas & Acessórios" },
+        { "@type": "OfferCatalog", "name": "Consertos e Restauração" },
+        { "@type": "OfferCatalog", "name": "Peças Sob Medida" }
+      ]
+    }
+  }
+  </script>
+
+  <!-- ============================================================
+       DADOS ESTRUTURADOS — FAQPage (espelha o FAQ visível)
+  ============================================================ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Vocês fazem peças sob medida?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Fazemos sim. Você conta o que tem em mente — modelo, tamanho, cor do couro, detalhes — e a Márcia faz pra você. É só chamar no WhatsApp." }
+      },
+      {
+        "@type": "Question",
+        "name": "Quanto tempo demora pra ficar pronto?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Depende da peça e da fila de pedidos do momento. Quando você fala com a Márcia, ela te passa o prazo certinho na hora." }
+      },
+      {
+        "@type": "Question",
+        "name": "Vocês enviam para outras cidades?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Combinamos o envio caso a caso. Manda uma mensagem com a sua cidade que a gente vê a melhor forma de te atender." }
+      },
+      {
+        "@type": "Question",
+        "name": "Quais as formas de pagamento?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A Márcia te passa as formas disponíveis durante o atendimento. Chama no WhatsApp pra combinar." }
+      },
+      {
+        "@type": "Question",
+        "name": "Vocês consertam peças que não foram compradas aí?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Consertamos sim — sela, arreio, cinto, bolsa. Manda uma foto da peça no WhatsApp que a Márcia avalia e te diz o que dá pra fazer." }
+      },
+      {
+        "@type": "Question",
+        "name": "Como funciona a garantia?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Cada peça é feita à mão com couro selecionado pra durar. Se acontecer qualquer coisa, fala com a gente que a Márcia te orienta." }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
 
   <!-- ============================================================
        HEADER FIXO
@@ -26,7 +158,7 @@
       <!-- Logo -->
       <a href="#inicio" class="header__logo">
         <span class="logo__icon">
-  <img src="assets/images/Design sem nome (2)(1).png" alt="Logo Selaria Santos">
+  <img src="assets/images/logo.webp" alt="Logo Selaria & Casa de Couro Santos" width="58" height="58">
 </span>
         <span class="logo__text">
           <span class="logo__name">Selaria Santos</span>
@@ -36,9 +168,10 @@
 
       <!-- Nav desktop -->
       <nav class="header__nav" id="nav" aria-label="Navegação principal">
-        <a href="#sobre" class="nav__link">Sobre</a>
         <a href="catalogo.html" class="nav__link">Catálogo</a>
-        <a href="#diferenciais" class="nav__link">Diferenciais</a>
+        <a href="#precos" class="nav__link">Preços</a>
+        <a href="#como-funciona" class="nav__link">Como funciona</a>
+        <a href="#sobre" class="nav__link">Sobre</a>
         <a href="#contato" class="nav__link">Contato</a>
       </nav>
 
@@ -62,7 +195,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="conteudo">
 
     <!-- ============================================================
          HERO
@@ -77,12 +210,12 @@
         <p class="hero__eyebrow">Artesanato em couro · São José dos Campos</p>
         <h1 class="hero__title">
           Couro de verdade,<br />
-          <em>todos os produtos</em><br />
-          feito à mãos
+          <em>feito à mão</em><br />
+          para durar a vida toda.
         </h1>
         <p class="hero__sub">
-          Selas, arreios, cintos e acessórios com couro legítimo de alta qualidade.
-          Atendimento pessoal — sem pressa, com cuidado.
+          Selas, arreios, cintos, bolsas e consertos em couro legítimo. Você fala
+          direto com a Márcia — sem pressa, sem atendente, sem script.
         </p>
         <div class="hero__actions">
           <a
@@ -92,10 +225,10 @@
             rel="noopener noreferrer"
           >
             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            Fale conosco
+            Falar no WhatsApp
           </a>
           <a href="#catalogo" class="btn btn--outline">
-            Ver produtos
+            Ver o catálogo
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
@@ -114,72 +247,15 @@
       </div>
     </section>
 
-    <!-- ============================================================
-         SOBRE A LOJA
+        <!-- ============================================================
+         BARRA DE CONFIANÇA
     ============================================================ -->
-    <section class="sobre" id="sobre" aria-label="Sobre a loja">
-      <div class="container">
-
-        <div class="section__header">
-          <p class="section__label">Quem somos</p>
-          <h2 class="section__title">A qualidade que você <br /><em>reconhece na primeira vez.</em></h2>
-          <p class="section__desc">
-            A Selaria & Casa de Couro Santos é um lugar onde o couro ainda é trabalhado
-            como antigamente — com tempo, capricho e conversa. Com atendimento pessoalmente, nós conhecemos cada produto e ajudamos você a achar exatamente
-            o que precisa.
-          </p>
-        </div>
-
-        <div class="sobre__cards">
-
-          <div class="info-card" data-reveal>
-            <div class="info-card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-            </div>
-            <h3 class="info-card__title">Endereço</h3>
-            <p class="info-card__text">
-              Rua Anselmo Carnevali, 167<br />
-              Alto da Ponte<br />
-              São José dos Campos — SP
-            </p>
-            <a
-              href="https://www.google.com/maps/search/?api=1&query=Rua+Anselmo+Carnevali,+167,+Alto+da+Ponte,+S%C3%A3o+Jos%C3%A9+dos+Campos,+SP,+12212-610,+Brasil"
-              class="info-card__link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >Ver no mapa →</a>
-          </div>
-
-          <div class="info-card" data-reveal>
-            <div class="info-card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            </div>
-            <h3 class="info-card__title">Horário</h3>
-            <p class="info-card__text">
-              Segunda a Sexta<br />
-              <strong>07h às 18h</strong>
-            </p>
-            <p class="info-card__note">Sábados e domingos fechado</p>
-          </div>
-
-          <div class="info-card" data-reveal>
-            <div class="info-card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.69a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z" transform="translate(1 1)"/></svg>
-            </div>
-            <h3 class="info-card__title">Contato</h3>
-            <p class="info-card__text">
-              (12) 98852-0409<br />
-              <em>WhatsApp da Márcia</em>
-            </p>
-            <a
-              href="https://wa.me/5512988520409?text=Ol%C3%A1%20M%C3%A1rcia!%20Vim%20pelo%20site%20e%20gostaria%20de%20conversar."
-              class="info-card__link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >Chamar no WhatsApp →</a>
-          </div>
-
-        </div>
+    <section class="trust-bar" aria-label="Resumo dos nossos diferenciais">
+      <div class="container trust-bar__inner">
+        <span class="trust-bar__item"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Couro legítimo</span>
+        <span class="trust-bar__item"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Feito à mão</span>
+        <span class="trust-bar__item"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Atendimento pessoal</span>
+        <span class="trust-bar__item"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Loja física no Alto da Ponte</span>
       </div>
     </section>
 
@@ -192,7 +268,7 @@
 
         <div class="section__header">
           <p class="section__label">Catálogo</p>
-          <h2 class="section__title">Nossas categorias</h2>
+          <h2 class="section__title">O que a gente faz</h2>
           <p class="section__desc">
             Clique em uma categoria para ver os produtos disponíveis e falar
             direto conosco  pelo WhatsApp.
@@ -204,7 +280,7 @@
           <!-- Categoria 1: Selas -->
           <a class="categoria-card" data-reveal href="catalogo.html?c=selas#catContent" aria-label="Ver produtos de Selas">
             <div class="categoria-card__img-wrap">
-              <img src="assets/images/sela.png" alt="Selas artesanais em couro" class="categoria-card__img" loading="lazy" onerror="this.closest('.categoria-card__img-wrap').classList.add('img-placeholder')" />
+              <img src="assets/images/sela.webp" alt="Selas artesanais em couro" class="categoria-card__img" loading="lazy" onerror="this.closest('.categoria-card__img-wrap').classList.add('img-placeholder')" />
               <div class="categoria-card__badge">Mais pedido</div>
               <div class="categoria-card__overlay" aria-hidden="true">
                 <span class="categoria-card__ver">Ver produtos
@@ -221,7 +297,7 @@
           <!-- Categoria 2: Arreios -->
           <a class="categoria-card" data-reveal href="catalogo.html?c=arreios#catContent" aria-label="Ver produtos de Arreios">
             <div class="categoria-card__img-wrap">
-              <img src="assets/images/arreio.png" alt="Arreios equestres em couro" class="categoria-card__img" loading="lazy" onerror="this.closest('.categoria-card__img-wrap').classList.add('img-placeholder')" />
+              <img src="assets/images/arreio.webp" alt="Arreios equestres em couro" class="categoria-card__img" loading="lazy" onerror="this.closest('.categoria-card__img-wrap').classList.add('img-placeholder')" />
               <div class="categoria-card__overlay" aria-hidden="true">
                 <span class="categoria-card__ver">Ver produtos
                   <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -237,7 +313,7 @@
           <!-- Categoria 3: Cintos -->
           <a class="categoria-card" data-reveal href="catalogo.html?c=cintos#catContent" aria-label="Ver produtos de Cintos">
             <div class="categoria-card__img-wrap">
-              <img src="assets/images/cinto.png" alt="Cintos de couro artesanais" class="categoria-card__img" loading="lazy" onerror="this.closest('.categoria-card__img-wrap').classList.add('img-placeholder')" />
+              <img src="assets/images/cinto.webp" alt="Cintos de couro artesanais" class="categoria-card__img" loading="lazy" onerror="this.closest('.categoria-card__img-wrap').classList.add('img-placeholder')" />
               <div class="categoria-card__badge categoria-card__badge--dark">Sob medida</div>
               <div class="categoria-card__overlay" aria-hidden="true">
                 <span class="categoria-card__ver">Ver produtos
@@ -254,7 +330,7 @@
           <!-- Categoria 4: Bolsas & Acessórios -->
           <a class="categoria-card" data-reveal href="catalogo.html?c=bolsas#catContent" aria-label="Ver produtos de Bolsas e Acessórios">
             <div class="categoria-card__img-wrap">
-              <img src="assets/images/bolsa.png" alt="Bolsas e acessórios em couro" class="categoria-card__img" loading="lazy" onerror="this.closest('.categoria-card__img-wrap').classList.add('img-placeholder')" />
+              <img src="assets/images/bolsa.webp" alt="Bolsas e acessórios em couro" class="categoria-card__img" loading="lazy" onerror="this.closest('.categoria-card__img-wrap').classList.add('img-placeholder')" />
               <div class="categoria-card__overlay" aria-hidden="true">
                 <span class="categoria-card__ver">Ver produtos
                   <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -270,7 +346,7 @@
           <!-- Categoria 5: Consertos -->
           <a class="categoria-card" data-reveal href="catalogo.html?c=consertos#catContent" aria-label="Ver serviços de Consertos">
             <div class="categoria-card__img-wrap">
-              <img src="assets/images/conserto.png" alt="Consertos de peças em couro" class="categoria-card__img" loading="lazy" onerror="this.closest('.categoria-card__img-wrap').classList.add('img-placeholder')" />
+              <img src="assets/images/conserto.webp" alt="Consertos de peças em couro" class="categoria-card__img" loading="lazy" onerror="this.closest('.categoria-card__img-wrap').classList.add('img-placeholder')" />
               <div class="categoria-card__overlay" aria-hidden="true">
                 <span class="categoria-card__ver">Ver serviços
                   <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -286,7 +362,7 @@
           <!-- Categoria 6: Sob Medida -->
           <a class="categoria-card categoria-card--destaque" data-reveal href="catalogo.html?c=sobmedida#catContent" aria-label="Ver opções de peças Sob Medida">
             <div class="categoria-card__img-wrap">
-              <img src="assets/images/personalizado.png" alt="Peças personalizadas e sob medida" class="categoria-card__img" loading="lazy" onerror="this.closest('.categoria-card__img-wrap').classList.add('img-placeholder')" />
+              <img src="assets/images/personalizado.webp" alt="Peças personalizadas e sob medida" class="categoria-card__img" loading="lazy" onerror="this.closest('.categoria-card__img-wrap').classList.add('img-placeholder')" />
               <div class="categoria-card__badge categoria-card__badge--gold">Especial</div>
               <div class="categoria-card__overlay" aria-hidden="true">
                 <span class="categoria-card__ver">Ver opções
@@ -304,7 +380,53 @@
       </div>
     </section>
 
-    <!-- ============================================================
+        <!-- ============================================================
+         FAIXAS DE PREÇO
+    ============================================================ -->
+    <section class="precos" id="precos" aria-label="Faixas de preço">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__label">Quanto custa</p>
+          <h2 class="section__title">Preços <em>sem surpresa</em></h2>
+          <p class="section__desc">Pra você ter uma ideia antes de chamar. O valor final depende do couro, do tamanho e dos detalhes da peça.</p>
+        </div>
+        <div class="precos__grid">
+          <!-- AJUSTAR PREÇO: troque "___" pelos valores reais de cada categoria -->
+          <div class="preco-card" data-reveal>
+            <span class="preco-card__cat">Cintos</span>
+            <span class="preco-card__valor">a partir de R$ ___ <span>· couro legítimo</span></span>
+          </div>
+          <div class="preco-card" data-reveal>
+            <span class="preco-card__cat">Bolsas &amp; acessórios</span>
+            <span class="preco-card__valor">a partir de R$ ___ <span>· costura manual</span></span>
+          </div>
+          <div class="preco-card" data-reveal>
+            <span class="preco-card__cat">Selas</span>
+            <span class="preco-card__valor">a partir de R$ ___ <span>· feita à mão</span></span>
+          </div>
+          <div class="preco-card" data-reveal>
+            <span class="preco-card__cat">Arreios</span>
+            <span class="preco-card__valor">a partir de R$ ___ <span>· conjunto completo</span></span>
+          </div>
+          <div class="preco-card" data-reveal>
+            <span class="preco-card__cat">Consertos</span>
+            <span class="preco-card__valor">Orçamento na hora <span>· avaliação sem compromisso</span></span>
+          </div>
+          <div class="preco-card" data-reveal>
+            <span class="preco-card__cat">Sob medida</span>
+            <span class="preco-card__valor">Orçamento personalizado <span>· do seu jeito</span></span>
+          </div>
+        </div>
+        <p class="precos__note">Os valores variam conforme o couro, o tamanho e os detalhes. Manda uma mensagem que a Márcia te passa o valor certinho — sem compromisso.</p>
+        <div class="precos__cta">
+          <a href="https://wa.me/5512988520409?text=Ol%C3%A1%20M%C3%A1rcia%21%20Vim%20pelo%20site%20e%20gostaria%20de%20um%20or%C3%A7amento.%20Pode%20me%20ajudar%3F" class="btn btn--primary" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Pedir meu orçamento
+          </a>
+        </div>
+      </div>
+    </section>
+
+<!-- ============================================================
          DIFERENCIAIS
     ============================================================ -->
     <section class="diferenciais" id="diferenciais" aria-label="Nossos diferenciais">
@@ -324,8 +446,8 @@
             </div>
             <h3 class="dif-card__title">Atendimento da Márcia</h3>
             <p class="dif-card__text">
-              Você fala diretamente com quem faz. Nós atendemos
-              pessoalmente — sem atendente, sem script.
+              Você fala direto com quem faz a peça. Sem atendente, sem script,
+              sem robô. A Márcia te ajuda a escolher o que serve pra você.
             </p>
           </div>
 
@@ -334,10 +456,10 @@
             <div class="dif-card__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
-            <h3 class="dif-card__title">Feito à mão</h3>
+            <h3 class="dif-card__title">Feito à mão, peça por peça</h3>
             <p class="dif-card__text">
-              Cada peça é trabalhada manualmente. Nenhuma é igual à outra.
-              É artesanato de verdade, não linha de produção.
+              Nada de linha de produção. Cada peça é cortada, costurada e
+              acabada à mão — por isso nenhuma sai igual à outra.
             </p>
           </div>
 
@@ -346,10 +468,10 @@
             <div class="dif-card__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
-            <h3 class="dif-card__title">Couro de qualidade</h3>
+            <h3 class="dif-card__title">Couro que envelhece bonito</h3>
             <p class="dif-card__text">
-              Material selecionado, curtido e resistente. Uma sela da Márcia
-              não se compra e joga fora — ela fica com você por anos.
+              Couro legítimo selecionado, que você toca e sente o cheiro. Não é
+              pra usar e jogar fora — é pra durar anos e ficar com a sua marca.
             </p>
           </div>
 
@@ -358,10 +480,10 @@
             <div class="dif-card__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             </div>
-            <h3 class="dif-card__title">Loja física</h3>
+            <h3 class="dif-card__title">Loja física pra ver e tocar</h3>
             <p class="dif-card__text">
-              Venha ver, tocar e experimentar. No Alto da Ponte, em São José dos
-              Campos — de segunda a sexta, das 7h às 18h.
+              No Alto da Ponte, em São José dos Campos. Venha conhecer,
+              experimentar e conversar — de segunda a sexta, das 7h às 18h.
             </p>
           </div>
 
@@ -370,7 +492,66 @@
       </div>
     </section>
 
+        <!-- ============================================================
+         HISTÓRIA DA MÁRCIA
+    ============================================================ -->
+    <section class="historia" id="sobre" aria-label="Sobre a Márcia">
+      <div class="container">
+        <div class="historia__layout">
+          <div class="historia__text" data-reveal>
+            <p class="section__label">Quem faz</p>
+            <h2 class="section__title">Aqui quem te atende é<br /><em>quem faz a peça.</em></h2>
+            <p class="historia__p">A Selaria &amp; Casa de Couro Santos é um lugar onde o couro ainda é trabalhado como antigamente — com tempo, capricho e conversa.</p>
+            <p class="historia__p">Quem te atende é a Márcia, a mesma pessoa que corta, costura e dá o acabamento em cada peça. É esse cuidado de quem faz com as próprias mãos que você sente quando pega uma peça nossa — e que a gente não abre mão.</p>
+            <p class="historia__p">Não é peça de prateleira feita às pressas. É couro de verdade, trabalhado pra durar e pra ficar com a sua marca.</p>
+          </div>
+          <!-- TROCAR POR FOTO REAL DA MÁRCIA / OFICINA: substitua a div abaixo por <img src="assets/images/marcia.webp" alt="Márcia trabalhando o couro na oficina" /> -->
+          <div class="historia__media img-placeholder" data-reveal role="img" aria-label="Espaço reservado para foto da Márcia ou da oficina"></div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============================================================
+         COMO FUNCIONA O PEDIDO
+    ============================================================ -->
+    <section class="processo" id="como-funciona" aria-label="Como funciona o pedido">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__label">Como funciona</p>
+          <h2 class="section__title">Do "oi" até a <em>peça na sua mão</em></h2>
+          <p class="section__desc">Sem formulário, sem complicação. Tudo direto no WhatsApp.</p>
+        </div>
+        <div class="processo__grid">
+          <div class="passo-card" data-reveal>
+            <div class="passo-card__num" aria-hidden="true">1</div>
+            <h3 class="passo-card__title">Manda um oi</h3>
+            <p class="passo-card__text">Você chama a Márcia no WhatsApp. Leva um minuto.</p>
+          </div>
+          <div class="passo-card" data-reveal>
+            <div class="passo-card__num" aria-hidden="true">2</div>
+            <h3 class="passo-card__title">Conta o que precisa</h3>
+            <p class="passo-card__text">O modelo, o tamanho, a cor do couro — ou manda a foto da peça pra consertar.</p>
+          </div>
+          <div class="passo-card" data-reveal>
+            <div class="passo-card__num" aria-hidden="true">3</div>
+            <h3 class="passo-card__title">Recebe o orçamento</h3>
+            <p class="passo-card__text">Sem compromisso. A Márcia te passa o valor e o prazo certinhos.</p>
+          </div>
+          <div class="passo-card" data-reveal>
+            <div class="passo-card__num" aria-hidden="true">4</div>
+            <h3 class="passo-card__title">Sua peça fica pronta</h3>
+            <p class="passo-card__text">Você retira na loja ou combina o envio. Simples assim.</p>
+          </div>
+        </div>
+        <div class="processo__cta">
+          <a href="https://wa.me/5512988520409?text=Ol%C3%A1%20M%C3%A1rcia%21%20Vim%20pelo%20site%20e%20quero%20come%C3%A7ar%20um%20pedido." class="btn btn--primary" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Começar agora no WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+
+<!-- ============================================================
          CTA FINAL
     ============================================================ -->
     <section class="cta-section" aria-label="Chamada para ação">
@@ -402,7 +583,78 @@
       </div>
     </section>
 
+        <!-- ============================================================
+         DEPOIMENTOS
+         ⚠️ PLACEHOLDER: os textos abaixo são MODELOS. Substitua por depoimentos
+         REAIS de clientes (prints de WhatsApp, avaliações do Google, etc.).
+         Enquanto não houver depoimentos reais, o ideal é OCULTAR esta seção
+         (basta comentar o <section> inteiro) para não exibir conteúdo de exemplo.
+    ============================================================ -->
+    <section class="depoimentos" id="depoimentos" aria-label="Depoimentos de clientes">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__label">Quem já comprou</p>
+          <h2 class="section__title">O que dizem <em>sobre o nosso trabalho</em></h2>
+        </div>
+        <div class="depoimentos__grid">
+          <div class="depo-card" data-reveal>
+            <div class="depo-card__stars" aria-label="5 de 5 estrelas">★★★★★</div>
+            <p class="depo-card__quote">Aqui vai o depoimento de um cliente — uma frase curta e verdadeira sobre como foi o atendimento e a peça que recebeu.</p>
+            <p class="depo-card__author">Nome do cliente <span>São José dos Campos/SP</span></p>
+          </div>
+          <div class="depo-card" data-reveal>
+            <div class="depo-card__stars" aria-label="5 de 5 estrelas">★★★★★</div>
+            <p class="depo-card__quote">Espaço reservado para a opinião de quem comprou: o que pediu, como ficou, e por que recomendaria a Selaria Santos.</p>
+            <p class="depo-card__author">Nome do cliente <span>São José dos Campos/SP</span></p>
+          </div>
+          <div class="depo-card" data-reveal>
+            <div class="depo-card__stars" aria-label="5 de 5 estrelas">★★★★★</div>
+            <p class="depo-card__quote">Modelo de depoimento — troque por um relato real de cliente assim que tiver. Frases curtas e específicas convertem mais.</p>
+            <p class="depo-card__author">Nome do cliente <span>São José dos Campos/SP</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============================================================
+         FAQ
+    ============================================================ -->
+    <section class="faq" id="faq" aria-label="Perguntas frequentes">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__label">Dúvidas comuns</p>
+          <h2 class="section__title">Perguntas <em>frequentes</em></h2>
+        </div>
+        <div class="faq__list">
+          <details class="faq-item">
+            <summary class="faq-item__q">Vocês fazem peças sob medida?</summary>
+            <div class="faq-item__a">Fazemos sim. Você conta o que tem em mente — modelo, tamanho, cor do couro, detalhes — e a Márcia faz pra você. É só chamar no WhatsApp.</div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__q">Quanto tempo demora pra ficar pronto?</summary>
+            <div class="faq-item__a">Depende da peça e da fila de pedidos do momento. Quando você fala com a Márcia, ela te passa o prazo certinho na hora. <!-- CONFIRMAR COM A MÁRCIA --></div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__q">Vocês enviam para outras cidades?</summary>
+            <div class="faq-item__a">Combinamos o envio caso a caso. Manda uma mensagem com a sua cidade que a gente vê a melhor forma de te atender. <!-- CONFIRMAR COM A MÁRCIA --></div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__q">Quais as formas de pagamento?</summary>
+            <div class="faq-item__a">A Márcia te passa as formas disponíveis durante o atendimento. Chama no WhatsApp pra combinar. <!-- CONFIRMAR COM A MÁRCIA --></div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__q">Vocês consertam peças que não foram compradas aí?</summary>
+            <div class="faq-item__a">Consertamos sim — sela, arreio, cinto, bolsa. Manda uma foto da peça no WhatsApp que a Márcia avalia e te diz o que dá pra fazer.</div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__q">Como funciona a garantia?</summary>
+            <div class="faq-item__a">Cada peça é feita à mão com couro selecionado pra durar. Se acontecer qualquer coisa, fala com a gente que a Márcia te orienta. <!-- CONFIRMAR COM A MÁRCIA --></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+<!-- ============================================================
          CONTATO + MAPA
     ============================================================ -->
     <section class="contato" id="contato" aria-label="Contato e localização">

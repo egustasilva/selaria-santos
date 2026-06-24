@@ -141,9 +141,9 @@
   const heroTexture = document.querySelector('.hero__texture');
   if (heroTexture) {
     const heroBg = new Image();
-    heroBg.src = 'assets/images/hero.jpg';
+    heroBg.src = 'assets/images/hero.webp';
     heroBg.onload = function () {
-      heroTexture.style.backgroundImage = `url('assets/images/hero.jpg')`;
+      heroTexture.style.backgroundImage = `url('assets/images/hero.webp')`;
       heroTexture.style.backgroundSize = 'cover';
       heroTexture.style.backgroundPosition = 'center';
     };

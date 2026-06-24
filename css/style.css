@@ -1494,3 +1494,653 @@ ul { list-style: none; }
   outline-offset: 3px;
   border-radius: 3px;
 }
+
+/* ==========================================================
+   ONDA 2 — SEÇÕES DE CONTEÚDO & CONVERSÃO
+   ========================================================== */
+
+/* ----------------------------------------------------------
+   BARRA DE CONFIANÇA
+   ---------------------------------------------------------- */
+.trust-bar {
+  background: var(--cor-bege-med);
+  border-block: 1px solid var(--cor-bege-esc);
+}
+.trust-bar__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 2.5rem;
+  padding-block: 1.1rem;
+}
+.trust-bar__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--cor-couro);
+}
+.trust-bar__item svg {
+  flex-shrink: 0;
+  color: var(--cor-ouro);
+}
+
+/* ----------------------------------------------------------
+   FAIXAS DE PREÇO
+   ---------------------------------------------------------- */
+.precos {
+  padding-block: var(--sp-xl);
+  background: var(--cor-branco);
+}
+.precos__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.preco-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.5rem 1.6rem;
+  background: var(--cor-bege);
+  border: 1px solid var(--cor-bege-esc);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--cor-ouro);
+  transition: transform var(--transicao), box-shadow var(--transicao);
+}
+.preco-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-md);
+}
+.preco-card__cat {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--cor-terra);
+}
+.preco-card__valor {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--cor-couro);
+}
+.preco-card__valor span {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--cor-texto-ter);
+  letter-spacing: 0.04em;
+}
+.precos__note {
+  margin-top: var(--sp-md);
+  text-align: center;
+  font-size: 0.92rem;
+  color: var(--cor-texto-sec);
+  max-width: 620px;
+  margin-inline: auto;
+}
+.precos__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--sp-md);
+}
+
+/* ----------------------------------------------------------
+   HISTÓRIA DA MÁRCIA
+   ---------------------------------------------------------- */
+.historia {
+  padding-block: var(--sp-xl);
+  background: var(--cor-bege);
+}
+.historia__layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+.historia__text .section__label,
+.historia__text .section__title {
+  text-align: left;
+}
+.historia__text .section__title { margin-bottom: 1.25rem; }
+.historia__p {
+  font-size: 1.02rem;
+  color: var(--cor-texto-sec);
+  line-height: 1.85;
+  margin-bottom: 1.1rem;
+}
+.historia__media {
+  position: relative;
+  aspect-ratio: 4/3;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--sombra-md);
+  background: var(--cor-bege-esc);
+}
+.historia__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.historia__media.img-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: var(--cor-texto-ter);
+}
+.historia__media.img-placeholder::after {
+  content: '📷  Foto da Márcia / oficina';
+  font-size: 0.95rem;
+  opacity: 0.6;
+}
+
+/* ----------------------------------------------------------
+   COMO FUNCIONA O PEDIDO
+   ---------------------------------------------------------- */
+.processo {
+  padding-block: var(--sp-xl);
+  background: var(--cor-branco);
+}
+.processo__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  counter-reset: passo;
+}
+.passo-card {
+  position: relative;
+  padding: 2.25rem 1.5rem 1.75rem;
+  background: var(--cor-bege);
+  border: 1px solid var(--cor-bege-esc);
+  border-radius: var(--radius-md);
+  text-align: center;
+  transition: transform var(--transicao), box-shadow var(--transicao);
+}
+.passo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-md);
+}
+.passo-card__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  background: var(--cor-couro);
+  color: var(--cor-branco);
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.passo-card__title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--cor-terra);
+  margin-bottom: 0.5rem;
+}
+.passo-card__text {
+  font-size: 0.88rem;
+  color: var(--cor-texto-sec);
+  line-height: 1.65;
+}
+.processo__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--sp-lg);
+}
+
+/* ----------------------------------------------------------
+   DEPOIMENTOS
+   ---------------------------------------------------------- */
+.depoimentos {
+  padding-block: var(--sp-xl);
+  background: var(--cor-bege);
+}
+.depoimentos__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.depo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem 1.75rem;
+  background: var(--cor-branco);
+  border: 1px solid var(--cor-bege-esc);
+  border-radius: var(--radius-md);
+  box-shadow: var(--sombra-sm);
+}
+.depo-card__quote {
+  position: relative;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--cor-texto-sec);
+}
+.depo-card__quote::before {
+  content: '“';
+  display: block;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  line-height: 0.6;
+  color: var(--cor-ouro);
+  margin-bottom: 0.4rem;
+}
+.depo-card__stars {
+  color: var(--cor-ouro);
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+}
+.depo-card__author {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--cor-terra);
+}
+.depo-card__author span {
+  display: block;
+  font-weight: 400;
+  font-size: 0.78rem;
+  color: var(--cor-texto-ter);
+}
+
+/* ----------------------------------------------------------
+   FAQ (acordeão nativo)
+   ---------------------------------------------------------- */
+.faq {
+  padding-block: var(--sp-xl);
+  background: var(--cor-branco);
+}
+.faq__list {
+  max-width: 760px;
+  margin-inline: auto;
+}
+.faq-item {
+  border: 1px solid var(--cor-bege-esc);
+  border-radius: var(--radius-sm);
+  background: var(--cor-bege);
+  margin-bottom: 0.85rem;
+  overflow: hidden;
+}
+.faq-item__q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.4rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--cor-terra);
+  cursor: pointer;
+  list-style: none;
+}
+.faq-item__q::-webkit-details-marker { display: none; }
+.faq-item__q::after {
+  content: '+';
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--cor-couro);
+  transition: transform var(--transicao);
+  line-height: 1;
+}
+.faq-item[open] .faq-item__q::after {
+  transform: rotate(45deg);
+}
+.faq-item__a {
+  padding: 0 1.4rem 1.2rem;
+  font-size: 0.94rem;
+  color: var(--cor-texto-sec);
+  line-height: 1.75;
+}
+
+/* ----------------------------------------------------------
+   ONDA 2 — RESPONSIVO
+   ---------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .precos__grid { grid-template-columns: repeat(2, 1fr); }
+  .processo__grid { grid-template-columns: repeat(2, 1fr); }
+  .depoimentos__grid { grid-template-columns: 1fr; }
+  .historia__layout { gap: 2rem; }
+}
+
+@media (max-width: 768px) {
+  .trust-bar__inner { gap: 0.75rem 1.5rem; }
+  .precos__grid { grid-template-columns: 1fr; }
+  .processo__grid { grid-template-columns: 1fr; }
+  .historia__layout {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+  .historia__media { order: -1; }
+}
+
+/* ==========================================================
+   CATÁLOGO (página catalogo.html) — movido do <style> inline (Onda 3)
+   ========================================================== */
+/* ================================================================
+       CATÁLOGO — estilos exclusivos desta página
+    ================================================================ */
+
+/* ── Hero da página ── */
+    .cat-hero {
+      background: var(--cor-couro-esc);
+      padding: calc(var(--header-h) + var(--sp-lg)) 0 var(--sp-lg);
+      position: relative;
+      overflow: hidden;
+    }
+    .cat-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('assets/images/hero.webp') center / cover no-repeat;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+    .cat-hero .container { position: relative; z-index: 1; }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: var(--sp-sm);
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+    }
+    .breadcrumb a {
+      color: var(--cor-ouro-claro);
+      text-decoration: none;
+      transition: color var(--transicao);
+    }
+    .breadcrumb a:hover { color: var(--cor-branco); }
+    .breadcrumb__sep,
+    .breadcrumb__current { color: var(--cor-bege-esc); }
+
+    .cat-hero__label {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cor-ouro);
+      margin-bottom: 0.6rem;
+    }
+    .cat-hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 5vw, 3rem);
+      font-weight: 700;
+      color: var(--cor-branco);
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+    .cat-hero__sub {
+      font-size: 1rem;
+      color: var(--cor-bege-esc);
+      max-width: 520px;
+      line-height: 1.6;
+    }
+
+/* ── Tabs de categoria (sticky) ── */
+    .cat-tabs-wrap {
+      background: var(--cor-bege);
+      border-bottom: 2px solid var(--cor-bege-med);
+      position: sticky;
+      top: var(--header-h);
+      z-index: 90;
+      box-shadow: 0 3px 16px rgba(78, 44, 24, 0.10);
+    }
+    .cat-tabs {
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    .cat-tabs::-webkit-scrollbar { display: none; }
+
+    .cat-tab {
+      flex-shrink: 0;
+      padding: 1rem 1.25rem 0.9rem;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--cor-texto-sec);
+      cursor: pointer;
+      transition: color var(--transicao), border-color var(--transicao);
+      white-space: nowrap;
+      margin-bottom: -2px;
+    }
+    .cat-tab:hover { color: var(--cor-couro); }
+    .cat-tab.active {
+      color: var(--cor-couro-esc);
+      border-bottom-color: var(--cor-ouro);
+    }
+
+/* ── Área de conteúdo ── */
+    .cat-content {
+      padding: var(--sp-lg) 0 var(--sp-xl);
+      background: var(--cor-bege);
+      min-height: 55vh;
+      scroll-margin-top: calc(var(--header-h) + 3.25rem);
+    }
+    .cat-content__header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: var(--sp-md);
+      padding-bottom: var(--sp-sm);
+      border-bottom: 1px solid var(--cor-bege-esc);
+    }
+    .cat-content__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      color: var(--cor-terra);
+      font-weight: 700;
+    }
+    .cat-content__count {
+      font-size: 0.8125rem;
+      color: var(--cor-texto-ter);
+      font-style: italic;
+    }
+
+/* ── Grid de produtos ── */
+    .cat-produtos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: var(--sp-md);
+    }
+    @media (max-width: 640px) {
+      .cat-produtos { grid-template-columns: 1fr; }
+    }
+
+/* Animação de entrada staggered */
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .cat-produtos .produto-card {
+      opacity: 0;
+      animation: cardIn 0.4s ease forwards;
+    }
+    .cat-produtos .produto-card:nth-child(1) { animation-delay: 0.04s; }
+    .cat-produtos .produto-card:nth-child(2) { animation-delay: 0.10s; }
+    .cat-produtos .produto-card:nth-child(3) { animation-delay: 0.16s; }
+    .cat-produtos .produto-card:nth-child(4) { animation-delay: 0.22s; }
+    .cat-produtos .produto-card:nth-child(5) { animation-delay: 0.28s; }
+    .cat-produtos .produto-card:nth-child(6) { animation-delay: 0.34s; }
+
+/* ── CTA dentro do catálogo ── */
+    .cat-cta {
+      text-align: center;
+      padding: var(--sp-md) var(--sp-lg);
+      background: var(--cor-bege-med);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--cor-bege-esc);
+      margin-top: var(--sp-lg);
+    }
+    .cat-cta__text {
+      font-size: 1rem;
+      color: var(--cor-texto-sec);
+      margin-bottom: var(--sp-sm);
+    }
+    .cat-cta__text strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--cor-terra);
+      margin-bottom: 0.4rem;
+    }
+
+/* nav__link--active para esta página */
+    .nav__link--active {
+      color: var(--cor-ouro-claro) !important;
+    }
+
+
+/* ==========================================================
+   ONDA 3 — ELEVAÇÃO VISUAL & MICROINTERAÇÕES
+   ========================================================== */
+
+/* ---- Skip link (acessibilidade) ---- */
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -120%;
+  z-index: 1100;
+  background: var(--cor-terra);
+  color: var(--cor-branco);
+  padding: 0.7rem 1.1rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.85rem;
+  box-shadow: var(--sombra-md);
+  transition: top var(--transicao);
+}
+.skip-link:focus {
+  top: 0.75rem;
+  outline: 2px solid var(--cor-ouro);
+  outline-offset: 2px;
+}
+
+/* ---- Hero: profundidade (vinheta radial) ---- */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 70% at 28% 42%, transparent 0%, transparent 42%, rgba(20, 10, 4, 0.55) 100%);
+}
+
+/* ---- Hero: sinais de confiança como chips ---- */
+.hero__trust span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.42rem 0.9rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(240, 190, 79, 0.28);
+  border-radius: 50px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* ---- Microinteração: brilho varrendo botões principais ---- */
+.btn--primary,
+.btn--cta {
+  position: relative;
+  overflow: hidden;
+}
+.btn--primary::after,
+.btn--cta::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -130%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+.btn--primary:hover::after,
+.btn--cta:hover::after { left: 140%; }
+
+/* ---- Motivo de "costura de couro": moldura tracejada no hover ---- */
+.preco-card,
+.passo-card,
+.depo-card,
+.info-card { position: relative; }
+.preco-card::after,
+.passo-card::after,
+.depo-card::after,
+.info-card::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px dashed rgba(201, 151, 28, 0);
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+  transition: border-color var(--transicao);
+}
+.preco-card:hover::after,
+.passo-card:hover::after,
+.depo-card:hover::after,
+.info-card:hover::after {
+  border-color: rgba(201, 151, 28, 0.4);
+}
+
+/* ---- FAQ: revelação suave da resposta ---- */
+.faq-item[open] .faq-item__a {
+  animation: faqFade 0.35s ease;
+}
+@keyframes faqFade {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Separador de costura (utilitário opcional) ---- */
+.stitch-sep {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding-block: var(--sp-md);
+}
+.stitch-sep::before,
+.stitch-sep::after {
+  content: '';
+  height: 0;
+  flex: 0 1 120px;
+  border-top: 2px dashed var(--cor-bege-esc);
+}
+.stitch-sep__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cor-ouro);
+  flex-shrink: 0;
+}
+
+/* Acessibilidade: sem movimento de brilho com reduce-motion */
+@media (prefers-reduced-motion: reduce) {
+  .btn--primary::after,
+  .btn--cta::after { transition: none; }
+  .faq-item[open] .faq-item__a { animation: none; }
+}

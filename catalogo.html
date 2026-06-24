@@ -3,207 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Catálogo de produtos da Selaria & Casa de Couro Santos — selas, arreios, cintos, bolsas e acessórios artesanais em couro legítimo. São José dos Campos/SP." />
-  <meta name="keywords" content="selaria, couro, sela, arreio, cinto, bolsa couro, São José dos Campos, artesanal, sob medida" />
-  <meta property="og:title" content="Catálogo | Selaria & Casa de Couro Santos" />
-  <meta property="og:description" content="Selas, arreios, cintos, bolsas e muito mais — todos feitos à mão com couro legítimo." />
+
+  <title>Catálogo de Produtos | Selaria & Casa de Couro Santos</title>
+  <meta name="description" content="Catálogo da Selaria & Casa de Couro Santos: selas, arreios, cintos, bolsas, acessórios, consertos e peças sob medida em couro legítimo. Fale direto pelo WhatsApp. São José dos Campos/SP." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#3D2010" />
+  <link rel="canonical" href="https://www.selariasantos.com.br/catalogo.html" />
+
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <title>Catálogo | Selaria & Casa de Couro Santos</title>
+  <meta property="og:site_name" content="Selaria & Casa de Couro Santos" />
+  <meta property="og:title" content="Catálogo | Selaria & Casa de Couro Santos" />
+  <meta property="og:description" content="Selas, arreios, cintos, bolsas, consertos e peças sob medida — todos feitos à mão com couro legítimo." />
+  <meta property="og:url" content="https://www.selariasantos.com.br/catalogo.html" />
+  <meta property="og:image" content="https://www.selariasantos.com.br/assets/images/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://www.selariasantos.com.br/assets/images/og-image.jpg" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="assets/images/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16.png" />
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
 
   <link rel="stylesheet" href="css/style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
 
-  <style>
-    /* ================================================================
-       CATÁLOGO — estilos exclusivos desta página
-    ================================================================ */
+  <!-- Breadcrumb estruturado -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://www.selariasantos.com.br/" },
+      { "@type": "ListItem", "position": 2, "name": "Catálogo", "item": "https://www.selariasantos.com.br/catalogo.html" }
+    ]
+  }
+  </script>
 
-    /* ── Hero da página ── */
-    .cat-hero {
-      background: var(--cor-couro-esc);
-      padding: calc(var(--header-h) + var(--sp-lg)) 0 var(--sp-lg);
-      position: relative;
-      overflow: hidden;
-    }
-    .cat-hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url('assets/images/hero.jpg') center / cover no-repeat;
-      opacity: 0.12;
-      pointer-events: none;
-    }
-    .cat-hero .container { position: relative; z-index: 1; }
-
-    .breadcrumb {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: var(--sp-sm);
-      font-family: var(--font-body);
-      font-size: 0.8125rem;
-    }
-    .breadcrumb a {
-      color: var(--cor-ouro-claro);
-      text-decoration: none;
-      transition: color var(--transicao);
-    }
-    .breadcrumb a:hover { color: var(--cor-branco); }
-    .breadcrumb__sep,
-    .breadcrumb__current { color: var(--cor-bege-esc); }
-
-    .cat-hero__label {
-      font-family: var(--font-body);
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--cor-ouro);
-      margin-bottom: 0.6rem;
-    }
-    .cat-hero__title {
-      font-family: var(--font-display);
-      font-size: clamp(1.9rem, 5vw, 3rem);
-      font-weight: 700;
-      color: var(--cor-branco);
-      line-height: 1.15;
-      margin-bottom: 0.75rem;
-    }
-    .cat-hero__sub {
-      font-size: 1rem;
-      color: var(--cor-bege-esc);
-      max-width: 520px;
-      line-height: 1.6;
-    }
-
-    /* ── Tabs de categoria (sticky) ── */
-    .cat-tabs-wrap {
-      background: var(--cor-bege);
-      border-bottom: 2px solid var(--cor-bege-med);
-      position: sticky;
-      top: var(--header-h);
-      z-index: 90;
-      box-shadow: 0 3px 16px rgba(78, 44, 24, 0.10);
-    }
-    .cat-tabs {
-      display: flex;
-      gap: 0;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 0 1rem;
-    }
-    .cat-tabs::-webkit-scrollbar { display: none; }
-
-    .cat-tab {
-      flex-shrink: 0;
-      padding: 1rem 1.25rem 0.9rem;
-      background: none;
-      border: none;
-      border-bottom: 3px solid transparent;
-      font-family: var(--font-body);
-      font-size: 0.8125rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--cor-texto-sec);
-      cursor: pointer;
-      transition: color var(--transicao), border-color var(--transicao);
-      white-space: nowrap;
-      margin-bottom: -2px;
-    }
-    .cat-tab:hover { color: var(--cor-couro); }
-    .cat-tab.active {
-      color: var(--cor-couro-esc);
-      border-bottom-color: var(--cor-ouro);
-    }
-
-    /* ── Área de conteúdo ── */
-    .cat-content {
-      padding: var(--sp-lg) 0 var(--sp-xl);
-      background: var(--cor-bege);
-      min-height: 55vh;
-      scroll-margin-top: calc(var(--header-h) + 3.25rem);
-    }
-    .cat-content__header {
-      display: flex;
-      align-items: baseline;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-bottom: var(--sp-md);
-      padding-bottom: var(--sp-sm);
-      border-bottom: 1px solid var(--cor-bege-esc);
-    }
-    .cat-content__title {
-      font-family: var(--font-display);
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      color: var(--cor-terra);
-      font-weight: 700;
-    }
-    .cat-content__count {
-      font-size: 0.8125rem;
-      color: var(--cor-texto-ter);
-      font-style: italic;
-    }
-
-    /* ── Grid de produtos ── */
-    .cat-produtos {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: var(--sp-md);
-    }
-    @media (max-width: 640px) {
-      .cat-produtos { grid-template-columns: 1fr; }
-    }
-
-    /* Animação de entrada staggered */
-    @keyframes cardIn {
-      from { opacity: 0; transform: translateY(22px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .cat-produtos .produto-card {
-      opacity: 0;
-      animation: cardIn 0.4s ease forwards;
-    }
-    .cat-produtos .produto-card:nth-child(1) { animation-delay: 0.04s; }
-    .cat-produtos .produto-card:nth-child(2) { animation-delay: 0.10s; }
-    .cat-produtos .produto-card:nth-child(3) { animation-delay: 0.16s; }
-    .cat-produtos .produto-card:nth-child(4) { animation-delay: 0.22s; }
-    .cat-produtos .produto-card:nth-child(5) { animation-delay: 0.28s; }
-    .cat-produtos .produto-card:nth-child(6) { animation-delay: 0.34s; }
-
-    /* ── CTA dentro do catálogo ── */
-    .cat-cta {
-      text-align: center;
-      padding: var(--sp-md) var(--sp-lg);
-      background: var(--cor-bege-med);
-      border-radius: var(--radius-md);
-      border: 1px solid var(--cor-bege-esc);
-      margin-top: var(--sp-lg);
-    }
-    .cat-cta__text {
-      font-size: 1rem;
-      color: var(--cor-texto-sec);
-      margin-bottom: var(--sp-sm);
-    }
-    .cat-cta__text strong {
-      display: block;
-      font-family: var(--font-display);
-      font-size: 1.25rem;
-      color: var(--cor-terra);
-      margin-bottom: 0.4rem;
-    }
-
-    /* nav__link--active para esta página */
-    .nav__link--active {
-      color: var(--cor-ouro-claro) !important;
-    }
-  </style>
 </head>
 <body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
 
   <!-- ============================================================
        HEADER FIXO (idêntico ao index.html)
@@ -214,7 +60,7 @@
       <!-- Logo -->
       <a href="index.html" class="header__logo">
         <span class="logo__icon">
-          <img src="assets/images/Design sem nome (2)(1).png" alt="Logo Selaria Santos">
+          <img src="assets/images/logo.webp" alt="Logo Selaria & Casa de Couro Santos" width="58" height="58">
         </span>
         <span class="logo__text">
           <span class="logo__name">Selaria Santos</span>
@@ -224,10 +70,11 @@
 
       <!-- Nav desktop -->
       <nav class="header__nav" id="nav" aria-label="Navegação principal">
-        <a href="index.html#sobre"       class="nav__link">Sobre</a>
-        <a href="catalogo.html"          class="nav__link nav__link--active" aria-current="page">Catálogo</a>
-        <a href="index.html#diferenciais" class="nav__link">Diferenciais</a>
-        <a href="index.html#contato"     class="nav__link">Contato</a>
+        <a href="catalogo.html"            class="nav__link nav__link--active" aria-current="page">Catálogo</a>
+        <a href="index.html#precos"        class="nav__link">Preços</a>
+        <a href="index.html#como-funciona" class="nav__link">Como funciona</a>
+        <a href="index.html#sobre"         class="nav__link">Sobre</a>
+        <a href="index.html#contato"       class="nav__link">Contato</a>
       </nav>
 
       <!-- Botão WhatsApp no header -->
@@ -250,7 +97,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="conteudo">
 
     <!-- ============================================================
          HERO DA PÁGINA DE CATÁLOGO
