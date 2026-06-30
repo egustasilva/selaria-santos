@@ -1,2 +1,10 @@
 .DS_Store
 *.DS_Store
+
+# Tooling local (não versionar)
+.claude/
+.claude-flow/
+.impeccable/
+
+# Originais em alta resolução — mantidos localmente, fora do repo/deploy
+assets/_originais/

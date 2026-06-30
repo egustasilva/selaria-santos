@@ -1,1 +1,0 @@
-Voce não entendeu a parte da categoria. É pra redirecionar pra outra pagina, nao continuar na mesma. Pode criar outras novas, pode fazer o que quiser

@@ -228,16 +228,6 @@ ul { list-style: none; }
   box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
 }
 
-.btn--produto-gold {
-  background: var(--cor-ouro);
-  border-color: var(--cor-ouro);
-}
-.btn--produto-gold:hover {
-  background: #b5851a;
-  border-color: #b5851a;
-  box-shadow: 0 6px 20px rgba(201, 151, 28, 0.4);
-}
-
 .btn--cta {
   background: #fff;
   color: var(--cor-terra);
@@ -786,10 +776,6 @@ ul { list-style: none; }
   transform: translateY(-6px);
   box-shadow: var(--sombra-lg);
 }
-.produto-card--destaque {
-  border: 2px solid var(--cor-ouro);
-}
-
 .produto-card__img-wrap {
   position: relative;
   aspect-ratio: 4/3;
@@ -2113,29 +2099,6 @@ ul { list-style: none; }
 @keyframes faqFade {
   from { opacity: 0; transform: translateY(-4px); }
   to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ---- Separador de costura (utilitário opcional) ---- */
-.stitch-sep {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  padding-block: var(--sp-md);
-}
-.stitch-sep::before,
-.stitch-sep::after {
-  content: '';
-  height: 0;
-  flex: 0 1 120px;
-  border-top: 2px dashed var(--cor-bege-esc);
-}
-.stitch-sep__dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--cor-ouro);
-  flex-shrink: 0;
 }
 
 /* Acessibilidade: sem movimento de brilho com reduce-motion */

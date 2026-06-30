@@ -294,12 +294,10 @@
     const n = cat.produtos.length;
     countEl.textContent = `${n} produto${n !== 1 ? 's' : ''} nesta categoria`;
 
-    // Injeta cards (forçar reflow para a animação reiniciar)
-    produtosEl.innerHTML = '';
-    // pequeno timeout para o browser registrar a mudança antes da animação
-    requestAnimationFrame(() => {
-      produtosEl.innerHTML = cat.produtos.map(buildCard).join('');
-    });
+    // Injeta cards. Novos nós já re-disparam a animação cardIn — sem depender
+    // de requestAnimationFrame (que não roda com a aba oculta e deixava o
+    // catálogo vazio nesses casos).
+    produtosEl.innerHTML = cat.produtos.map(buildCard).join('');
 
     // Atualiza tabs
     tabs.forEach(tab => {
