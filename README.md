@@ -9,20 +9,30 @@ HTML + CSS + JavaScript puro, sem build. Conversão 100% via WhatsApp.
 
 ```
 selaria-santos/
-├── index.html            → Landing page (12 seções, funil de conversão)
-├── catalogo.html         → Catálogo dinâmico (categorias via JS)
+├── index.html            → Landing page (home; grid de categorias do banco + fallback)
+├── catalogo.html         → Catálogo dinâmico (lê do Supabase)
+├── admin.html            → Painel ADM (login + CRUD de categoria/produto)
 ├── lp-campanha.html      → Landing de campanha (ads) — foco em "conserto", sem menu
-├── robots.txt
-├── sitemap.xml
-├── site.webmanifest
-├── css/
-│   └── style.css         → Todo o estilo (variáveis, componentes, responsivo, catálogo)
+├── robots.txt · sitemap.xml · site.webmanifest
+├── netlify.toml          → deploy estático sem build
+├── package.json          → só para testes/ESM (não gera build no deploy)
+├── css/style.css         → Todo o estilo
 ├── js/
-│   ├── main.js           → Interatividade (menu, scroll, reveal, WhatsApp float)
-│   └── catalogo.js       → Dados e renderização do catálogo
-├── assets/images/        → Imagens em WebP otimizado + favicons + og-image
+│   ├── main.js               → Interatividade (menu, scroll, reveal, WhatsApp float)
+│   ├── supabase-config.js    → chaves do Supabase (PREENCHER)
+│   ├── supabase-client.js    → init do client (CDN)
+│   ├── catalogo-data.js      → leitura de categorias/produtos
+│   ├── catalogo-render.js    → render puro dos cards (testável)
+│   ├── catalogo.js           → controlador da página de catálogo
+│   ├── home-catalogo.js      → grid de categorias da home
+│   └── admin.js              → painel ADM (auth + CRUD + upload)
+├── db/
+│   ├── schema.sql        → tabelas + RLS + storage
+│   └── seed.sql          → dados atuais (6 categorias + 19 produtos)
+├── tests/catalogo.test.mjs → teste do render
+├── assets/images/        → WebP + favicons + og-image
 └── docs/
-    ├── superpowers/specs/ → Spec de design (Onda 2)
+    ├── superpowers/specs/ → Specs de design
     └── marketing/         → Estratégia de anúncios
 ```
 
@@ -57,9 +67,45 @@ Cada anúncio/seção usa um texto pré-preenchido diferente — assim a Márcia
 
 ---
 
+## 🔐 Painel administrativo (Supabase)
+
+O catálogo (home + `catalogo.html`) lê **categorias e produtos do Supabase**. Um ADM
+logado gerencia tudo em `admin.html` (criar/editar/excluir categoria e produto, com
+upload de foto). Segurança no servidor via RLS: qualquer um lê, só logado escreve.
+
+**Arquivos:** `db/schema.sql` (tabelas + RLS + storage), `db/seed.sql` (dados atuais),
+`js/supabase-config.js` (chaves), `js/admin.js` (painel).
+
+### Configurar (uma vez)
+
+1. **Criar projeto** em [supabase.com](https://supabase.com) → New project (região *South
+   America / São Paulo*). Anote a senha do banco.
+2. **Rodar o SQL:** SQL Editor → colar e *Run* o conteúdo de `db/schema.sql`, depois
+   `db/seed.sql` (migra as 6 categorias + 19 produtos atuais).
+3. **Criar o ADM:** Authentication → Users → *Add user* → email + senha. (Sem cadastro
+   público; esse é o único login que edita.)
+4. **Pegar as chaves:** Project Settings → API → copiar *Project URL* e *anon public key*
+   → colar em `js/supabase-config.js`. (A anon key é pública por design — a proteção é a
+   RLS, não a chave.)
+5. **Fotos:** o bucket `catalogo` é criado pelo `schema.sql`. Upload feito pelo painel
+   (foto é comprimida para WebP no navegador antes de subir).
+
+### Usar
+`https://SEU-SITE/admin.html` → login → gerenciar. Não dá para excluir categoria que ainda
+tem produtos (mova/exclua os produtos antes).
+
+### Testar/local
+`npm test` roda o teste do render (escape/XSS, sprite, badges). Não precisa de chaves.
+
+---
+
 ## 🌐 Publicar (Netlify/Vercel, grátis)
 
-Arraste a pasta para o Netlify, ou conecte o repositório no Vercel. Depois configure o domínio próprio e **troque os placeholders de domínio** (ver tabela acima).
+Site estático: arraste a pasta para o **Netlify** (o `netlify.toml` já diz "sem build,
+publica a raiz"), ou conecte o repositório. No Vercel, use o preset **Other** sem build.
+Antes de publicar, preencha `js/supabase-config.js` (passo acima) e **troque os
+placeholders de domínio** (ver tabela acima). O `package.json`/`netlify.toml` são só para
+testes/deploy — não geram build.
 
 ---
 

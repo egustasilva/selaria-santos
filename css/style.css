@@ -2107,3 +2107,12 @@ ul { list-style: none; }
   .btn--cta::after { transition: none; }
   .faq-item[open] .faq-item__a { animation: none; }
 }
+
+/* Aviso de fallback do catálogo (Supabase indisponível/sem dados) */
+.cat-aviso {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--sp-lg) var(--sp-sm);
+  color: var(--cor-texto-sec);
+  font-size: 1rem;
+}

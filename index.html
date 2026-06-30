@@ -276,7 +276,8 @@
           </p>
         </div>
 
-        <div class="categorias__grid">
+        <!-- Cards estáticos abaixo = fallback; js/home-catalogo.js substitui pelos do banco -->
+        <div class="categorias__grid" id="categoriasGrid">
 
           <!-- Categoria 1: Selas -->
           <a class="categoria-card" data-reveal href="catalogo.html?c=selas#catContent" aria-label="Ver produtos de Selas">
@@ -786,5 +787,6 @@
   </div>
 
   <script src="js/main.js"></script>
+  <script type="module" src="js/home-catalogo.js"></script>
 </body>
 </html>
