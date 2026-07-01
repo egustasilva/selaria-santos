@@ -29,13 +29,27 @@ export function buildProdutoCard(p) {
     ? `<div class="${badgeClass('produto-card__badge', p.badge_mod)}">${esc(p.badge)}</div>`
     : '';
   const detalhes = (p.detalhes || []).map((d) => `<li>${esc(d)}</li>`).join('');
+
+  // Galeria = capa + fotos adicionais. Abre no lightbox (wiring em catalogo.js).
+  const galeria = [p.imagem, ...(p.imagens || [])].filter(Boolean);
+  const multi = galeria.length > 1;
+  const imgsAttr = esc(JSON.stringify(galeria));
+  const thumbs = multi
+    ? `<div class="produto-card__thumbs">${galeria
+        .slice(0, 4)
+        .map((src, i) => `<button type="button" class="produto-card__thumb" data-i="${i}" aria-label="Ver foto ${i + 1}"><img src="${esc(src)}" alt="" loading="lazy" /></button>`)
+        .join('')}${galeria.length > 4 ? `<span class="produto-card__more">+${galeria.length - 4}</span>` : ''}</div>`
+    : '';
+
   return `
-    <article class="produto-card">
-      <div class="produto-card__img-wrap">
+    <article class="produto-card" data-imgs="${imgsAttr}" data-alt="${esc(p.nome)}">
+      <div class="produto-card__img-wrap produto-card__img-wrap--zoom" data-open="0" role="button" tabindex="0" aria-label="Ampliar foto de ${esc(p.nome)}">
         <img src="${esc(p.imagem)}" alt="${esc(p.nome)}" class="produto-card__img" loading="lazy"
              onerror="this.closest('.produto-card__img-wrap').classList.add('img-placeholder')" />
         ${badge}
+        ${multi ? `<span class="produto-card__gcount" aria-hidden="true">${galeria.length} fotos</span>` : ''}
       </div>
+      ${thumbs}
       <div class="produto-card__body">
         <h3 class="produto-card__title">${esc(p.nome)}</h3>
         <p class="produto-card__desc">${esc(p.descricao)}</p>

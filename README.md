@@ -90,9 +90,19 @@ upload de foto). Segurança no servidor via RLS: qualquer um lê, só logado esc
 5. **Fotos:** o bucket `catalogo` é criado pelo `schema.sql`. Upload feito pelo painel
    (foto é comprimida para WebP no navegador antes de subir).
 
+### Migrações
+Ao atualizar o projeto, rode no SQL Editor as migrações em `db/` na ordem
+(idempotentes). Ex.: `db/migration-002-imagens.sql` adiciona a coluna de fotos da
+galeria (`produtos.imagens`).
+
 ### Usar
 `https://SEU-SITE/admin.html` → login → gerenciar. Não dá para excluir categoria que ainda
 tem produtos (mova/exclua os produtos antes).
+
+- **Galeria:** cada produto tem 1 foto de capa + fotos adicionais (upload múltiplo). No
+  site, clicar na foto abre em tela cheia com setas.
+- **Exportar:** botão *Exportar XLSX* baixa `catalogo-selaria.xlsx` (abas Produtos e
+  Categorias).
 
 ### Testar/local
 `npm test` roda o teste do render (escape/XSS, sprite, badges). Não precisa de chaves.

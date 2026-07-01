@@ -36,6 +36,18 @@ const evil = buildProdutoCard({ nome: '<script>alert(1)</script>', descricao: 'x
 assert.ok(!evil.includes('<script>alert(1)</script>'), 'script cru não vaza');
 assert.ok(evil.includes('&lt;script&gt;'), 'script é escapado');
 
+// galeria: com fotos adicionais → miniaturas + data-imgs com todas
+const cardG = buildProdutoCard({ nome: 'Sela', descricao: 'd', detalhes: [], imagem: 'a.webp', imagens: ['b.webp', 'c.webp'] });
+assert.ok(cardG.includes('produto-card__thumbs'), 'galeria: renderiza miniaturas');
+assert.ok(cardG.includes('3 fotos'), 'galeria: contador de fotos (capa + 2)');
+assert.ok(cardG.includes('a.webp') && cardG.includes('b.webp') && cardG.includes('c.webp'), 'galeria: todas as fotos no data-imgs');
+assert.ok(/data-imgs="[^"]*&quot;/.test(cardG), 'galeria: data-imgs é JSON escapado (atributo seguro)');
+
+// produto com 1 foto só → sem miniaturas, mas data-imgs tem a capa
+const card1 = buildProdutoCard({ nome: 'Sela', descricao: 'd', detalhes: [], imagem: 'a.webp' });
+assert.ok(!card1.includes('produto-card__thumbs'), '1 foto: sem miniaturas');
+assert.ok(card1.includes('data-imgs='), '1 foto: ainda tem data-imgs (abre no lightbox)');
+
 // categoria: destaque + slug no href + badge dark
 const cardC = buildCategoriaCard({
   slug: 'cintos', titulo: 'Cintos', descricao: 'desc', imagem: 'x.webp',

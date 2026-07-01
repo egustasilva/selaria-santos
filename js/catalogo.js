@@ -5,6 +5,7 @@
 import { fetchCategorias, fetchProdutos } from './catalogo-data.js';
 import { buildProdutoCard, esc } from './catalogo-render.js';
 import { isConfigured } from './supabase-client.js';
+import { openLightbox } from './lightbox.js';
 
 const tabsEl     = document.getElementById('catTabs');
 const produtosEl = document.getElementById('catProdutos');
@@ -71,6 +72,26 @@ async function renderCategoria(slug, { push = true } = {}) {
 tabsEl.addEventListener('click', (e) => {
   const tab = e.target.closest('.cat-tab');
   if (tab) renderCategoria(tab.dataset.cat);
+});
+
+// Galeria: clicar na foto/miniatura abre o lightbox
+function abrirGaleria(trigger, index) {
+  const card = trigger.closest('.produto-card');
+  if (!card) return;
+  let imgs = [];
+  try { imgs = JSON.parse(card.dataset.imgs || '[]'); } catch { /* ignora */ }
+  openLightbox(imgs, index, card.dataset.alt || '');
+}
+produtosEl.addEventListener('click', (e) => {
+  const thumb = e.target.closest('.produto-card__thumb');
+  if (thumb) { abrirGaleria(thumb, Number(thumb.dataset.i) || 0); return; }
+  const zona = e.target.closest('[data-open]');
+  if (zona) abrirGaleria(zona, Number(zona.dataset.open) || 0);
+});
+produtosEl.addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const zona = e.target.closest('.produto-card__img-wrap--zoom');
+  if (zona) { e.preventDefault(); abrirGaleria(zona, 0); }
 });
 
 window.addEventListener('popstate', (e) => {

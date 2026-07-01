@@ -232,14 +232,21 @@ function abrirFormProduto(p = {}) {
       <div class="adm-field"><label>Selo (opcional)</label><input name="badge" value="${esc(p.badge || '')}" /></div>
       <div class="adm-field"><label>Cor do selo</label><select name="badge_mod">${modOpts}</select></div>
     </div>
-    <div class="adm-row">
-      <div class="adm-field"><label>Ordem</label><input name="ordem" type="number" value="${Number(p.ordem) || 0}" /></div>
-      <div class="adm-field">
-        <label>Foto</label>
-        <input type="file" name="foto" accept="image/*" />
-      </div>
+    <div class="adm-field" style="max-width:12rem"><label>Ordem</label><input name="ordem" type="number" value="${Number(p.ordem) || 0}" /></div>
+    <div class="adm-field">
+      <label>Foto de capa</label>
+      <input type="file" name="foto" accept="image/*" />
+      ${p.imagem ? `<img class="adm-preview" src="${esc(p.imagem)}" style="display:block" />` : ''}
     </div>
-    ${p.imagem ? `<img class="adm-preview" src="${esc(p.imagem)}" style="display:block" />` : ''}
+    <div class="adm-field">
+      <label>Fotos adicionais (galeria)</label>
+      <input type="hidden" name="imagensAtuais" value="${esc(JSON.stringify(p.imagens || []))}" />
+      ${(p.imagens && p.imagens.length)
+        ? `<div class="adm-exthumbs">${p.imagens.map((u) => `<label class="adm-exthumb"><img src="${esc(u)}" alt="" /><span><input type="checkbox" name="rm_ext" value="${esc(u)}" /> remover</span></label>`).join('')}</div>`
+        : ''}
+      <input type="file" name="fotosExtras" accept="image/*" multiple />
+      <small class="adm-hint">Pode escolher várias de uma vez. As atuais ficam; marque "remover" pra tirar.</small>
+    </div>
     <div class="adm-form__actions">
       <button type="submit" class="adm-btn">Salvar</button>
       <button type="button" class="adm-btn adm-btn--ghost" data-cancel>Cancelar</button>
@@ -256,6 +263,16 @@ async function salvarProduto(e) {
     let imagem = fd.get('imagem') || null;
     const foto = fd.get('foto');
     if (foto && foto.size) imagem = await uploadImagem(foto, 'produtos');
+
+    // Galeria: mantém as atuais não-removidas + sobe as novas.
+    let atuais = [];
+    try { atuais = JSON.parse(fd.get('imagensAtuais') || '[]'); } catch { /* ignora */ }
+    const remover = fd.getAll('rm_ext');
+    const imagens = atuais.filter((u) => !remover.includes(u));
+    for (const file of fd.getAll('fotosExtras')) {
+      if (file && file.size) imagens.push(await uploadImagem(file, 'produtos'));
+    }
+
     const row = {
       categoria_id: fd.get('categoria_id'),
       nome: fd.get('nome').trim(),
@@ -265,6 +282,7 @@ async function salvarProduto(e) {
       badge_mod: fd.get('badge_mod') || '',
       ordem: Number(fd.get('ordem')) || 0,
       imagem,
+      imagens,
     };
     const id = f.dataset.id;
     const resp = id
@@ -290,12 +308,37 @@ async function excluirProduto(id) {
   await carregarTudo();
 }
 
+/* ---------------- exportar XLSX ---------------- */
+function exportarXLSX() {
+  const XLSX = window.XLSX;
+  if (!XLSX) { msg($('globalMsg'), 'Biblioteca de planilha não carregou. Recarregue a página.', 'err'); return; }
+  const catNome = Object.fromEntries(categorias.map((c) => [c.id, c.titulo]));
+  const prodRows = produtos.map((p) => ({
+    Categoria: catNome[p.categoria_id] || '',
+    Nome: p.nome,
+    Descrição: p.descricao,
+    Detalhes: (p.detalhes || []).join(' | '),
+    Selo: p.badge || '',
+    Ordem: p.ordem,
+    Fotos: 1 + (p.imagens ? p.imagens.length : 0),
+  }));
+  const catRows = categorias.map((c) => ({
+    Slug: c.slug, Título: c.titulo, Descrição: c.descricao || '',
+    Selo: c.badge || '', Destaque: c.destaque ? 'sim' : '', Ordem: c.ordem,
+  }));
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(prodRows), 'Produtos');
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(catRows), 'Categorias');
+  XLSX.writeFile(wb, 'catalogo-selaria.xlsx');
+}
+
 /* ---------------- wiring ---------------- */
 function init() {
   if (!isConfigured()) { $('naoConfig').hidden = false; return; }
 
   $('loginForm').addEventListener('submit', entrar);
   $('logoutBtn').addEventListener('click', sair);
+  $('exportBtn').addEventListener('click', exportarXLSX);
   $('novaCategoria').addEventListener('click', () => abrirFormCategoria());
   $('novoProduto').addEventListener('click', () => {
     if (!categorias.length) { msg($('globalMsg'), 'Crie uma categoria antes de adicionar produtos.', 'err'); return; }
