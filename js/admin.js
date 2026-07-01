@@ -25,6 +25,30 @@ function msg(el, texto, tipo) {
 const slugify = (s) =>
   String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '');
 
+// Toast fixo na tela (aparece onde a pessoa está, não no topo da página).
+let toastEl, toastTimer;
+function toast(texto, tipo = 'ok') {
+  if (!toastEl) {
+    toastEl = document.createElement('div');
+    toastEl.setAttribute('role', 'status');
+    toastEl.setAttribute('aria-live', 'polite');
+    document.body.appendChild(toastEl);
+  }
+  toastEl.className = `adm-toast adm-toast--${tipo} show`;
+  toastEl.textContent = texto;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3400);
+}
+
+// Mensagem amigável quando falta rodar uma migração (coluna inexistente).
+function erroAmigavel(err) {
+  const m = (err && err.message) || String(err);
+  if (err?.code === '42703' || err?.code === 'PGRST204' || /could not find|schema cache|column .* does not exist/i.test(m)) {
+    return 'Falta rodar uma migração no banco. Me chame aqui que eu te passo o SQL.';
+  }
+  return m;
+}
+
 function loadImage(file) {
   return new Promise((res, rej) => {
     const img = new Image();
@@ -86,7 +110,7 @@ async function carregarTudo() {
     renderCategorias();
     renderProdutos();
   } catch (err) {
-    msg($('globalMsg'), 'Erro ao carregar: ' + err.message, 'err');
+    toast('Erro ao carregar: ' + err.message, 'err');
   }
 }
 
@@ -184,10 +208,10 @@ async function salvarCategoria(f) {
       ? await supabase.from('categorias').update(row).eq('id', id)
       : await supabase.from('categorias').insert(row);
     if (resp.error) throw resp.error;
-    msg($('globalMsg'), 'Categoria salva.', 'ok');
+    toast('Categoria salva.', 'ok');
     await carregarTudo();
   } catch (err) {
-    msg($('globalMsg'), 'Erro ao salvar categoria: ' + err.message, 'err');
+    toast('Erro ao salvar categoria: ' + erroAmigavel(err), 'err');
     btn.disabled = false;
   }
 }
@@ -198,10 +222,10 @@ async function excluirCategoria(id) {
   const { error } = await supabase.from('categorias').delete().eq('id', id);
   if (error) {
     const fk = error.code === '23503' || /foreign key|violates/i.test(error.message);
-    msg($('globalMsg'), fk ? 'Essa categoria tem produtos. Exclua ou mova os produtos antes.' : 'Erro: ' + error.message, 'err');
+    toast(fk ? 'Essa categoria tem produtos. Exclua ou mova os produtos antes.' : 'Erro: ' + error.message, 'err');
     return;
   }
-  msg($('globalMsg'), 'Categoria excluída.', 'ok');
+  toast('Categoria excluída.', 'ok');
   await carregarTudo();
 }
 
@@ -326,10 +350,10 @@ async function salvarProduto(f) {
       ? await supabase.from('produtos').update(row).eq('id', id)
       : await supabase.from('produtos').insert(row);
     if (resp.error) throw resp.error;
-    msg($('globalMsg'), 'Produto salvo.', 'ok');
+    toast('Produto salvo.', 'ok');
     await carregarTudo();
   } catch (err) {
-    msg($('globalMsg'), 'Erro ao salvar produto: ' + err.message, 'err');
+    toast('Erro ao salvar produto: ' + erroAmigavel(err), 'err');
     btn.disabled = false;
   }
 }
@@ -338,15 +362,15 @@ async function excluirProduto(id) {
   const p = produtos.find((x) => x.id === id);
   if (!confirm(`Excluir o produto "${p ? p.nome : ''}"?`)) return;
   const { error } = await supabase.from('produtos').delete().eq('id', id);
-  if (error) { msg($('globalMsg'), 'Erro: ' + error.message, 'err'); return; }
-  msg($('globalMsg'), 'Produto excluído.', 'ok');
+  if (error) { toast('Erro: ' + error.message, 'err'); return; }
+  toast('Produto excluído.', 'ok');
   await carregarTudo();
 }
 
 /* ---------------- exportar XLSX ---------------- */
 function exportarXLSX() {
   const XLSX = window.XLSX;
-  if (!XLSX) { msg($('globalMsg'), 'Biblioteca de planilha não carregou. Recarregue a página.', 'err'); return; }
+  if (!XLSX) { toast('Biblioteca de planilha não carregou. Recarregue a página.', 'err'); return; }
   const catNome = Object.fromEntries(categorias.map((c) => [c.id, c.titulo]));
   const prodRows = produtos.map((p) => ({
     Categoria: catNome[p.categoria_id] || '',
@@ -377,7 +401,7 @@ function init() {
   $('exportBtn').addEventListener('click', exportarXLSX);
   $('novaCategoria').addEventListener('click', () => abrirFormCategoria({}, true));
   $('novoProduto').addEventListener('click', () => {
-    if (!categorias.length) { msg($('globalMsg'), 'Crie uma categoria antes de adicionar produtos.', 'err'); return; }
+    if (!categorias.length) { toast('Crie uma categoria antes de adicionar produtos.', 'err'); return; }
     abrirFormProduto({}, true);
   });
 

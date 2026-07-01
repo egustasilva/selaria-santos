@@ -85,6 +85,16 @@
     .adm-msg--ok { background: #e8f5ec; color: #1a7a3a; border: 1px solid #b8e0c4; }
     .adm-msg[hidden] { display: none; }
     .adm-empty { color: var(--cor-texto-ter); font-size: 0.88rem; font-style: italic; }
+    .adm-toast {
+      position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%) translateY(1.2rem);
+      z-index: 3000; max-width: 90vw; padding: 0.8rem 1.2rem; border-radius: 10px;
+      color: #fff; font-weight: 700; font-size: 0.9rem; box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      opacity: 0; visibility: hidden; transition: opacity 0.2s, transform 0.2s;
+    }
+    .adm-toast.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+    .adm-toast--ok { background: #1a7a3a; }
+    .adm-toast--err { background: #a23; }
+    @media (prefers-reduced-motion: reduce) { .adm-toast { transition: none; } }
     @media (max-width: 560px) { .adm-row { grid-template-columns: 1fr; } }
   </style>
 </head>
