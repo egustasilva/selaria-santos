@@ -9,8 +9,8 @@ const $ = (id) => document.getElementById(id);
 const MAX_FOTOS = 5;
 const COR_SELO_PADRAO = '#7C4A2D';
 
-// "?" com tooltip nativo (hover mostra a função do campo)
-const help = (txt) => ` <span class="adm-help" tabindex="0" title="${esc(txt)}">?</span>`;
+// "?" com tooltip CSS (hover/foco mostra a função do campo)
+const help = (txt) => ` <span class="adm-help" tabindex="0" role="img" aria-label="${esc(txt)}" data-tip="${esc(txt)}">?</span>`;
 
 let categorias = [];
 let produtos = [];
