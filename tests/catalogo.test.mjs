@@ -36,6 +36,16 @@ const evil = buildProdutoCard({ nome: '<script>alert(1)</script>', descricao: 'x
 assert.ok(!evil.includes('<script>alert(1)</script>'), 'script cru não vaza');
 assert.ok(evil.includes('&lt;script&gt;'), 'script é escapado');
 
+// selo com cor custom: fundo inline + texto contrastante, sem classe --mod
+const corEscura = buildProdutoCard({ nome: 'X', descricao: 'd', detalhes: [], imagem: 'a.webp', badge: 'Novo', badge_cor: '#4E2C18' });
+assert.ok(corEscura.includes('style="background:#4E2C18;color:#fff"'), 'cor escura → texto branco');
+assert.ok(!corEscura.includes('produto-card__badge--'), 'cor custom não usa classe modificadora');
+const corClara = buildProdutoCard({ nome: 'X', descricao: 'd', detalhes: [], imagem: 'a.webp', badge: 'Novo', badge_cor: '#F0BE4F' });
+assert.ok(corClara.includes('color:#2E1A0E'), 'cor clara → texto escuro');
+// cor inválida → cai no fallback do modificador antigo
+const corRuim = buildProdutoCard({ nome: 'X', descricao: 'd', detalhes: [], imagem: 'a.webp', badge: 'Novo', badge_cor: 'red', badge_mod: 'gold' });
+assert.ok(corRuim.includes('produto-card__badge--gold'), 'cor inválida cai no badge_mod');
+
 // galeria: com fotos adicionais → miniaturas + data-imgs com todas
 const cardG = buildProdutoCard({ nome: 'Sela', descricao: 'd', detalhes: [], imagem: 'a.webp', imagens: ['b.webp', 'c.webp'] });
 assert.ok(cardG.includes('produto-card__thumbs'), 'galeria: renderiza miniaturas');

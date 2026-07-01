@@ -6,14 +6,15 @@ import { supabase, isConfigured } from './supabase-client.js';
 import { esc } from './catalogo-render.js';
 
 const $ = (id) => document.getElementById(id);
-const BADGE_MODS = [
-  { v: '', t: 'Sem cor' },
-  { v: 'gold', t: 'Dourado' },
-  { v: 'dark', t: 'Escuro' },
-];
+const MAX_FOTOS = 5;
+const COR_SELO_PADRAO = '#7C4A2D';
+
+// "?" com tooltip nativo (hover mostra a função do campo)
+const help = (txt) => ` <span class="adm-help" tabindex="0" title="${esc(txt)}">?</span>`;
 
 let categorias = [];
 let produtos = [];
+let fotos = []; // form de produto: [{url?, file?, preview}] — a 1ª é a capa
 
 /* ---------------- helpers ---------------- */
 function msg(el, texto, tipo) {
@@ -108,27 +109,26 @@ function renderCategorias() {
 }
 
 function abrirFormCategoria(c = {}) {
-  const opts = BADGE_MODS.map((m) => `<option value="${m.v}" ${(c.badge_mod || '') === m.v ? 'selected' : ''}>${m.t}</option>`).join('');
   const f = $('catForm');
   f.hidden = false;
   f.dataset.id = c.id || '';
   f.innerHTML = `
     <input type="hidden" name="imagem" value="${esc(c.imagem || '')}" />
     <div class="adm-row">
-      <div class="adm-field"><label>Título</label><input name="titulo" value="${esc(c.titulo || '')}" required /></div>
-      <div class="adm-field"><label>Slug (URL)</label><input name="slug" value="${esc(c.slug || '')}" required /></div>
+      <div class="adm-field"><label>Título${help('Nome da categoria que aparece no site, ex: "Cintos".')}</label><input name="titulo" value="${esc(c.titulo || '')}" required /></div>
+      <div class="adm-field"><label>Slug (URL)${help('Parte do endereço da categoria (só letras/números, sem espaço). Gerado do título automaticamente.')}</label><input name="slug" value="${esc(c.slug || '')}" required /></div>
     </div>
-    <div class="adm-field"><label>Descrição (card da home)</label><textarea name="descricao">${esc(c.descricao || '')}</textarea></div>
+    <div class="adm-field"><label>Descrição${help('Texto curto do card da categoria na página inicial.')}</label><textarea name="descricao">${esc(c.descricao || '')}</textarea></div>
     <div class="adm-row">
-      <div class="adm-field"><label>Selo (opcional)</label><input name="badge" value="${esc(c.badge || '')}" /></div>
-      <div class="adm-field"><label>Cor do selo</label><select name="badge_mod">${opts}</select></div>
+      <div class="adm-field"><label>Selo (texto)${help('Etiqueta no canto do card, ex: "Mais pedido". Vazio = não mostra.')}</label><input name="badge" value="${esc(c.badge || '')}" /></div>
+      <div class="adm-field"><label>Cor do selo${help('Cor de fundo da etiqueta. Só aparece se o selo tiver texto.')}</label><input type="color" name="badge_cor" value="${esc(c.badge_cor || COR_SELO_PADRAO)}" /></div>
     </div>
     <div class="adm-row">
-      <div class="adm-field"><label>Ordem</label><input name="ordem" type="number" value="${Number(c.ordem) || 0}" /></div>
-      <div class="adm-field adm-field--check"><input type="checkbox" name="destaque" id="catDestaque" ${c.destaque ? 'checked' : ''} /><label for="catDestaque" style="margin:0">Destaque (borda dourada)</label></div>
+      <div class="adm-field"><label>Ordem${help('Posição na lista. Menor número aparece primeiro.')}</label><input name="ordem" type="number" value="${Number(c.ordem) || 0}" /></div>
+      <div class="adm-field adm-field--check"><input type="checkbox" name="destaque" id="catDestaque" ${c.destaque ? 'checked' : ''} /><label for="catDestaque" style="margin:0">Destaque (borda dourada)${help('Borda dourada no card pra chamar atenção.')}</label></div>
     </div>
     <div class="adm-field">
-      <label>Foto de capa</label>
+      <label>Foto de capa${help('Imagem do card. Melhor em paisagem (4:3). É comprimida automaticamente.')}</label>
       <input type="file" name="foto" accept="image/*" />
       ${c.imagem ? `<img class="adm-preview" src="${esc(c.imagem)}" style="display:block" />` : ''}
     </div>
@@ -158,7 +158,7 @@ async function salvarCategoria(e) {
       slug: slugify(fd.get('slug')),
       descricao: fd.get('descricao').trim() || null,
       badge: fd.get('badge').trim() || null,
-      badge_mod: fd.get('badge_mod') || '',
+      badge_cor: fd.get('badge').trim() ? fd.get('badge_cor') : null,
       destaque: fd.get('destaque') === 'on',
       ordem: Number(fd.get('ordem')) || 0,
       imagem,
@@ -214,43 +214,56 @@ function renderProdutos() {
     : '<p class="adm-empty">Nenhum produto ainda.</p>';
 }
 
+function renderFotos() {
+  const box = $('prodFotos');
+  if (!box) return;
+  box.innerHTML = fotos.length
+    ? fotos.map((f, i) => `
+      <div class="adm-foto${i === 0 ? ' adm-foto--capa' : ''}">
+        <img src="${esc(f.preview)}" alt="" />
+        ${i === 0
+          ? '<span class="adm-foto__tag">Capa</span>'
+          : `<button type="button" class="adm-foto__cap" data-foto-capa="${i}" title="Tornar esta a capa">tornar capa</button>`}
+        <button type="button" class="adm-foto__rm" data-foto-rm="${i}" aria-label="Remover foto" title="Remover">&times;</button>
+      </div>`).join('')
+    : '<p class="adm-hint">Nenhuma foto ainda. Clique em “+ Adicionar foto”.</p>';
+  const add = $('addFoto');
+  if (add) {
+    const cheio = fotos.length >= MAX_FOTOS;
+    add.disabled = cheio;
+    add.textContent = cheio ? `Máximo de ${MAX_FOTOS} fotos` : `+ Adicionar foto (${fotos.length}/${MAX_FOTOS})`;
+  }
+}
+
 function abrirFormProduto(p = {}) {
   const catOpts = categorias.map((c) => `<option value="${esc(c.id)}" ${p.categoria_id === c.id ? 'selected' : ''}>${esc(c.titulo)}</option>`).join('');
-  const modOpts = BADGE_MODS.map((m) => `<option value="${m.v}" ${(p.badge_mod || '') === m.v ? 'selected' : ''}>${m.t}</option>`).join('');
+  fotos = [p.imagem, ...(p.imagens || [])].filter(Boolean).map((url) => ({ url, preview: url }));
   const f = $('prodForm');
   f.hidden = false;
   f.dataset.id = p.id || '';
   f.innerHTML = `
-    <input type="hidden" name="imagem" value="${esc(p.imagem || '')}" />
     <div class="adm-row">
-      <div class="adm-field"><label>Nome</label><input name="nome" value="${esc(p.nome || '')}" required /></div>
-      <div class="adm-field"><label>Categoria</label><select name="categoria_id" required>${catOpts}</select></div>
+      <div class="adm-field"><label>Nome${help('Nome do produto que aparece no card, ex: "Cinto Liso".')}</label><input name="nome" value="${esc(p.nome || '')}" required /></div>
+      <div class="adm-field"><label>Categoria${help('Em qual categoria o produto entra.')}</label><select name="categoria_id" required>${catOpts}</select></div>
     </div>
-    <div class="adm-field"><label>Descrição</label><textarea name="descricao" required>${esc(p.descricao || '')}</textarea></div>
-    <div class="adm-field"><label>Detalhes (um por linha)</label><textarea name="detalhes">${esc((p.detalhes || []).join('\n'))}</textarea></div>
+    <div class="adm-field"><label>Descrição${help('Texto que descreve o produto no card.')}</label><textarea name="descricao" required>${esc(p.descricao || '')}</textarea></div>
+    <div class="adm-field"><label>Detalhes${help('Uma característica por linha — viram uma lista com traços no card.')}</label><textarea name="detalhes" placeholder="Couro legítimo&#10;Costura reforçada">${esc((p.detalhes || []).join('\n'))}</textarea></div>
     <div class="adm-row">
-      <div class="adm-field"><label>Selo (opcional)</label><input name="badge" value="${esc(p.badge || '')}" /></div>
-      <div class="adm-field"><label>Cor do selo</label><select name="badge_mod">${modOpts}</select></div>
+      <div class="adm-field"><label>Selo (texto)${help('Etiqueta no canto da foto, ex: "Novo". Vazio = não mostra.')}</label><input name="badge" value="${esc(p.badge || '')}" /></div>
+      <div class="adm-field"><label>Cor do selo${help('Cor de fundo da etiqueta. Só aparece se o selo tiver texto.')}</label><input type="color" name="badge_cor" value="${esc(p.badge_cor || COR_SELO_PADRAO)}" /></div>
     </div>
-    <div class="adm-field" style="max-width:12rem"><label>Ordem</label><input name="ordem" type="number" value="${Number(p.ordem) || 0}" /></div>
+    <div class="adm-field" style="max-width:12rem"><label>Ordem${help('Posição na categoria. Menor aparece primeiro.')}</label><input name="ordem" type="number" value="${Number(p.ordem) || 0}" /></div>
     <div class="adm-field">
-      <label>Foto de capa</label>
-      <input type="file" name="foto" accept="image/*" />
-      ${p.imagem ? `<img class="adm-preview" src="${esc(p.imagem)}" style="display:block" />` : ''}
-    </div>
-    <div class="adm-field">
-      <label>Fotos adicionais (galeria)</label>
-      <input type="hidden" name="imagensAtuais" value="${esc(JSON.stringify(p.imagens || []))}" />
-      ${(p.imagens && p.imagens.length)
-        ? `<div class="adm-exthumbs">${p.imagens.map((u) => `<label class="adm-exthumb"><img src="${esc(u)}" alt="" /><span><input type="checkbox" name="rm_ext" value="${esc(u)}" /> remover</span></label>`).join('')}</div>`
-        : ''}
-      <input type="file" name="fotosExtras" accept="image/*" multiple />
-      <small class="adm-hint">Pode escolher várias de uma vez. As atuais ficam; marque "remover" pra tirar.</small>
+      <label>Fotos${help('A 1ª foto é a capa. Adicione até ' + MAX_FOTOS + '. Use "tornar capa" pra trocar a principal.')}</label>
+      <div class="adm-fotos" id="prodFotos"></div>
+      <input type="file" id="fotoInput" accept="image/*" multiple hidden />
+      <button type="button" class="adm-btn adm-btn--ghost" id="addFoto">+ Adicionar foto</button>
     </div>
     <div class="adm-form__actions">
       <button type="submit" class="adm-btn">Salvar</button>
       <button type="button" class="adm-btn adm-btn--ghost" data-cancel>Cancelar</button>
     </div>`;
+  renderFotos();
 }
 
 async function salvarProduto(e) {
@@ -260,18 +273,13 @@ async function salvarProduto(e) {
   const btn = f.querySelector('button[type=submit]');
   btn.disabled = true;
   try {
-    let imagem = fd.get('imagem') || null;
-    const foto = fd.get('foto');
-    if (foto && foto.size) imagem = await uploadImagem(foto, 'produtos');
-
-    // Galeria: mantém as atuais não-removidas + sobe as novas.
-    let atuais = [];
-    try { atuais = JSON.parse(fd.get('imagensAtuais') || '[]'); } catch { /* ignora */ }
-    const remover = fd.getAll('rm_ext');
-    const imagens = atuais.filter((u) => !remover.includes(u));
-    for (const file of fd.getAll('fotosExtras')) {
-      if (file && file.size) imagens.push(await uploadImagem(file, 'produtos'));
+    // Fotos: sobe as novas (arquivo), mantém as existentes (url). A 1ª é a capa.
+    const urls = [];
+    for (const foto of fotos) {
+      urls.push(foto.file ? await uploadImagem(foto.file, 'produtos') : foto.url);
     }
+    const imagem = urls[0] || null;
+    const imagens = urls.slice(1);
 
     const row = {
       categoria_id: fd.get('categoria_id'),
@@ -279,7 +287,7 @@ async function salvarProduto(e) {
       descricao: fd.get('descricao').trim(),
       detalhes: fd.get('detalhes').split('\n').map((s) => s.trim()).filter(Boolean),
       badge: fd.get('badge').trim() || null,
-      badge_mod: fd.get('badge_mod') || '',
+      badge_cor: fd.get('badge').trim() ? fd.get('badge_cor') : null,
       ordem: Number(fd.get('ordem')) || 0,
       imagem,
       imagens,
@@ -346,6 +354,24 @@ function init() {
   });
   $('catForm').addEventListener('submit', salvarCategoria);
   $('prodForm').addEventListener('submit', salvarProduto);
+
+  // Fotos do produto: adicionar / remover / tornar capa
+  $('prodForm').addEventListener('click', (e) => {
+    if (e.target.closest('#addFoto')) { $('fotoInput').click(); return; }
+    const rm = e.target.closest('[data-foto-rm]');
+    if (rm) { fotos.splice(Number(rm.dataset.fotoRm), 1); renderFotos(); return; }
+    const cap = e.target.closest('[data-foto-capa]');
+    if (cap) { const i = Number(cap.dataset.fotoCapa); const [x] = fotos.splice(i, 1); fotos.unshift(x); renderFotos(); }
+  });
+  $('prodForm').addEventListener('change', (e) => {
+    if (e.target.id !== 'fotoInput') return;
+    for (const file of e.target.files) {
+      if (fotos.length >= MAX_FOTOS) break;
+      fotos.push({ file, preview: URL.createObjectURL(file) });
+    }
+    e.target.value = '';
+    renderFotos();
+  });
 
   document.addEventListener('click', (e) => {
     const t = e.target.closest('[data-edit-cat],[data-del-cat],[data-edit-prod],[data-del-prod],[data-cancel]');

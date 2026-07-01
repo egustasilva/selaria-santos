@@ -19,15 +19,29 @@ export function wppLink(nome) {
   return `https://wa.me/${WPP_NUM}?text=${encodeURIComponent(msg)}`;
 }
 
-function badgeClass(base, mod) {
-  return mod ? `${base} ${base}--${esc(mod)}` : base;
+/** Texto legível (claro/escuro) sobre uma cor de fundo hex. */
+function textoContraste(hex) {
+  const m = /^#([0-9a-f]{6})$/i.exec(String(hex || ''));
+  if (!m) return '#fff';
+  const n = parseInt(m[1], 16);
+  const yiq = (((n >> 16) & 255) * 299 + ((n >> 8) & 255) * 587 + (n & 255) * 114) / 1000;
+  return yiq >= 150 ? '#2E1A0E' : '#fff';
+}
+
+/** Selo (badge). Usa cor custom (badge_cor) se válida; senão o modificador de classe. */
+export function badgeHtml(base, item) {
+  if (!item || !item.badge) return '';
+  const cor = /^#[0-9a-fA-F]{6}$/.test(item.badge_cor || '') ? item.badge_cor : null;
+  if (cor) {
+    return `<div class="${base}" style="background:${cor};color:${textoContraste(cor)}">${esc(item.badge)}</div>`;
+  }
+  const cls = item.badge_mod ? `${base} ${base}--${esc(item.badge_mod)}` : base;
+  return `<div class="${cls}">${esc(item.badge)}</div>`;
 }
 
 /** Card de produto (página de catálogo). Usa o sprite #ic-wpp já presente na página. */
 export function buildProdutoCard(p) {
-  const badge = p.badge
-    ? `<div class="${badgeClass('produto-card__badge', p.badge_mod)}">${esc(p.badge)}</div>`
-    : '';
+  const badge = badgeHtml('produto-card__badge', p);
   const detalhes = (p.detalhes || []).map((d) => `<li>${esc(d)}</li>`).join('');
 
   // Galeria = capa + fotos adicionais. Abre no lightbox (wiring em catalogo.js).
@@ -65,9 +79,7 @@ export function buildProdutoCard(p) {
 /** Card de categoria (grid da home). Linka para a página de catálogo. */
 export function buildCategoriaCard(c) {
   const destaque = c.destaque ? ' categoria-card--destaque' : '';
-  const badge = c.badge
-    ? `<div class="${badgeClass('categoria-card__badge', c.badge_mod)}">${esc(c.badge)}</div>`
-    : '';
+  const badge = badgeHtml('categoria-card__badge', c);
   const arrow = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
   return `
     <a class="categoria-card${destaque}" data-reveal href="catalogo.html?c=${encodeURIComponent(c.slug)}#catContent" aria-label="Ver produtos de ${esc(c.titulo)}">
