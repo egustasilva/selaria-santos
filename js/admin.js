@@ -65,7 +65,13 @@ async function compressToWebp(file, maxSide = 1000, quality = 0.8) {
   const canvas = document.createElement('canvas');
   canvas.width = width; canvas.height = height;
   canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-  return new Promise((res) => canvas.toBlob(res, 'image/webp', quality));
+  return new Promise((resolve, reject) => {
+    const t = setTimeout(() => reject(new Error('Falha ao processar a imagem (tempo esgotado).')), 15000);
+    canvas.toBlob((blob) => {
+      clearTimeout(t);
+      blob ? resolve(blob) : reject(new Error('Falha ao processar a imagem.'));
+    }, 'image/webp', quality);
+  });
 }
 async function uploadImagem(file, prefix) {
   const blob = await compressToWebp(file);
@@ -173,7 +179,7 @@ function formCategoriaHTML(c) {
 
 function abrirFormCategoria(c = {}, novo = false) {
   fecharForms();
-  const mount = novo ? $('catNovoForm') : document.querySelector(`#catLista .adm-item-wrap[data-id="${c.id}"]`);
+  const mount = novo ? $('catNovoForm') : document.querySelector(`#catLista .adm-item-wrap[data-id="${CSS.escape(c.id)}"]`);
   if (!mount) return;
   mount.innerHTML = `<form class="adm-form" data-tipo="cat" data-id="${esc(c.id || '')}">${formCategoriaHTML(c)}</form>`;
   const form = mount.querySelector('form');
@@ -314,8 +320,9 @@ function formProdutoHTML(p) {
 
 function abrirFormProduto(p = {}, novo = false) {
   fecharForms();
-  const mount = novo ? $('prodNovoForm') : document.querySelector(`#prodLista .adm-item-wrap[data-id="${p.id}"]`);
+  const mount = novo ? $('prodNovoForm') : document.querySelector(`#prodLista .adm-item-wrap[data-id="${CSS.escape(p.id)}"]`);
   if (!mount) return;
+  fotos.forEach((f) => { if (f.file) URL.revokeObjectURL(f.preview); }); // libera previews antigos
   fotos = [p.imagem, ...(p.imagens || [])].filter(Boolean).map((url) => ({ url, preview: url }));
   mount.innerHTML = `<form class="adm-form" data-tipo="prod" data-id="${esc(p.id || '')}">${formProdutoHTML(p)}</form>`;
   renderFotos();
@@ -419,7 +426,7 @@ function init() {
     if (e.target.closest('[data-cancel]')) { fecharForms(); return; }
     if (e.target.closest('#addFoto')) { $('fotoInput').click(); return; }
     const rm = e.target.closest('[data-foto-rm]');
-    if (rm) { fotos.splice(Number(rm.dataset.fotoRm), 1); renderFotos(); return; }
+    if (rm) { const [x] = fotos.splice(Number(rm.dataset.fotoRm), 1); if (x && x.file) URL.revokeObjectURL(x.preview); renderFotos(); return; }
     const cap = e.target.closest('[data-foto-capa]');
     if (cap) { const i = Number(cap.dataset.fotoCapa); const [x] = fotos.splice(i, 1); fotos.unshift(x); renderFotos(); return; }
     const ec = e.target.closest('[data-edit-cat]');
