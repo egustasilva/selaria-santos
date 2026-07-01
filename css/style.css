@@ -2233,3 +2233,20 @@ ul { list-style: none; }
 @media (max-width: 560px) {
   .lightbox__nav { width: 44px; height: 44px; font-size: 1.6rem; }
 }
+
+/* ---- Esgotado ---- */
+.produto-card__esgotado {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  background: var(--cor-terra);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border-radius: 4px;
+  z-index: 1;
+}
+.produto-card--esgotado .produto-card__img { filter: grayscale(0.7) opacity(0.75); }

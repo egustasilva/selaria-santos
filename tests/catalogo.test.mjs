@@ -46,6 +46,14 @@ assert.ok(corClara.includes('color:#2E1A0E'), 'cor clara → texto escuro');
 const corRuim = buildProdutoCard({ nome: 'X', descricao: 'd', detalhes: [], imagem: 'a.webp', badge: 'Novo', badge_cor: 'red', badge_mod: 'gold' });
 assert.ok(corRuim.includes('produto-card__badge--gold'), 'cor inválida cai no badge_mod');
 
+// estoque: controla + 0 → "Esgotado"; controla + >0 ou não controla → sem esgotado
+const esg = buildProdutoCard({ nome: 'X', descricao: 'd', detalhes: [], imagem: 'a.webp', estoque_ativo: true, estoque: 0 });
+assert.ok(esg.includes('produto-card--esgotado') && esg.includes('>Esgotado<'), 'estoque 0 → Esgotado');
+const comEstoque = buildProdutoCard({ nome: 'X', descricao: 'd', detalhes: [], imagem: 'a.webp', estoque_ativo: true, estoque: 3 });
+assert.ok(!comEstoque.includes('produto-card--esgotado'), 'estoque >0 → sem Esgotado');
+const semControle = buildProdutoCard({ nome: 'X', descricao: 'd', detalhes: [], imagem: 'a.webp', estoque_ativo: false, estoque: 0 });
+assert.ok(!semControle.includes('produto-card--esgotado'), 'sem controle → sem Esgotado');
+
 // galeria: com fotos adicionais → miniaturas + data-imgs com todas
 const cardG = buildProdutoCard({ nome: 'Sela', descricao: 'd', detalhes: [], imagem: 'a.webp', imagens: ['b.webp', 'c.webp'] });
 assert.ok(cardG.includes('produto-card__thumbs'), 'galeria: renderiza miniaturas');

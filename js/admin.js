@@ -1,6 +1,6 @@
 /**
- * Painel ADM — login (Supabase Auth) + CRUD de categorias/produtos + upload de foto.
- * Escrita protegida por RLS no banco; aqui é só a interface.
+ * Painel ADM — login (Supabase Auth) + CRUD de categorias/produtos.
+ * Edição inline: o form abre dentro do próprio item. Escrita protegida por RLS.
  */
 import { supabase, isConfigured } from './supabase-client.js';
 import { esc } from './catalogo-render.js';
@@ -90,29 +90,38 @@ async function carregarTudo() {
   }
 }
 
+/** Fecha qualquer form aberto (novo ou inline) redesenhando as listas. */
+function fecharForms() {
+  $('catNovoForm').innerHTML = '';
+  $('prodNovoForm').innerHTML = '';
+  renderCategorias();
+  renderProdutos();
+}
+
 /* ---------------- categorias ---------------- */
+function itemCategoria(c) {
+  return `
+    <div class="adm-item">
+      <img class="adm-item__thumb" src="${esc(c.imagem || '')}" alt="" onerror="this.style.visibility='hidden'" />
+      <div class="adm-item__main">
+        <div class="adm-item__title">${esc(c.titulo)}</div>
+        <div class="adm-item__sub">${esc(c.slug)} · ordem ${c.ordem}</div>
+      </div>
+      <div class="adm-item__actions">
+        <button type="button" class="adm-btn adm-btn--ghost" data-edit-cat="${esc(c.id)}">Editar</button>
+        <button type="button" class="adm-btn adm-btn--danger" data-del-cat="${esc(c.id)}">Excluir</button>
+      </div>
+    </div>`;
+}
+
 function renderCategorias() {
   $('catLista').innerHTML = categorias.length
-    ? categorias.map((c) => `
-      <div class="adm-item">
-        <img class="adm-item__thumb" src="${esc(c.imagem || '')}" alt="" onerror="this.style.visibility='hidden'" />
-        <div class="adm-item__main">
-          <div class="adm-item__title">${esc(c.titulo)}</div>
-          <div class="adm-item__sub">${esc(c.slug)} · ordem ${c.ordem}</div>
-        </div>
-        <div class="adm-item__actions">
-          <button class="adm-btn adm-btn--ghost" data-edit-cat="${esc(c.id)}">Editar</button>
-          <button class="adm-btn adm-btn--danger" data-del-cat="${esc(c.id)}">Excluir</button>
-        </div>
-      </div>`).join('')
+    ? categorias.map((c) => `<div class="adm-item-wrap" data-id="${esc(c.id)}">${itemCategoria(c)}</div>`).join('')
     : '<p class="adm-empty">Nenhuma categoria ainda.</p>';
 }
 
-function abrirFormCategoria(c = {}) {
-  const f = $('catForm');
-  f.hidden = false;
-  f.dataset.id = c.id || '';
-  f.innerHTML = `
+function formCategoriaHTML(c) {
+  return `
     <input type="hidden" name="imagem" value="${esc(c.imagem || '')}" />
     <div class="adm-row">
       <div class="adm-field"><label>Título${help('Nome da categoria que aparece no site, ex: "Cintos".')}</label><input name="titulo" value="${esc(c.titulo || '')}" required /></div>
@@ -136,16 +145,23 @@ function abrirFormCategoria(c = {}) {
       <button type="submit" class="adm-btn">Salvar</button>
       <button type="button" class="adm-btn adm-btn--ghost" data-cancel>Cancelar</button>
     </div>`;
-  f.querySelector('[name=titulo]').addEventListener('input', (e) => {
-    const slug = f.querySelector('[name=slug]');
-    if (!c.id && !slug.dataset.touched) slug.value = slugify(e.target.value);
-  });
-  f.querySelector('[name=slug]').addEventListener('input', (e) => (e.target.dataset.touched = '1'));
 }
 
-async function salvarCategoria(e) {
-  e.preventDefault();
-  const f = $('catForm');
+function abrirFormCategoria(c = {}, novo = false) {
+  fecharForms();
+  const mount = novo ? $('catNovoForm') : document.querySelector(`#catLista .adm-item-wrap[data-id="${c.id}"]`);
+  if (!mount) return;
+  mount.innerHTML = `<form class="adm-form" data-tipo="cat" data-id="${esc(c.id || '')}">${formCategoriaHTML(c)}</form>`;
+  const form = mount.querySelector('form');
+  form.querySelector('[name=titulo]').addEventListener('input', (e) => {
+    const slug = form.querySelector('[name=slug]');
+    if (!c.id && !slug.dataset.touched) slug.value = slugify(e.target.value);
+  });
+  form.querySelector('[name=slug]').addEventListener('input', (e) => (e.target.dataset.touched = '1'));
+  form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+async function salvarCategoria(f) {
   const fd = new FormData(f);
   const btn = f.querySelector('button[type=submit]');
   btn.disabled = true;
@@ -168,12 +184,10 @@ async function salvarCategoria(e) {
       ? await supabase.from('categorias').update(row).eq('id', id)
       : await supabase.from('categorias').insert(row);
     if (resp.error) throw resp.error;
-    f.hidden = true;
     msg($('globalMsg'), 'Categoria salva.', 'ok');
     await carregarTudo();
   } catch (err) {
     msg($('globalMsg'), 'Erro ao salvar categoria: ' + err.message, 'err');
-  } finally {
     btn.disabled = false;
   }
 }
@@ -197,20 +211,29 @@ function nomeCategoria(id) {
   return c ? c.titulo : '—';
 }
 
+function estoqueLabel(p) {
+  if (!p.estoque_ativo) return '';
+  return p.estoque > 0 ? ` · ${p.estoque} em estoque` : ' · ESGOTADO';
+}
+
+function itemProduto(p) {
+  return `
+    <div class="adm-item">
+      <img class="adm-item__thumb" src="${esc(p.imagem || '')}" alt="" onerror="this.style.visibility='hidden'" />
+      <div class="adm-item__main">
+        <div class="adm-item__title">${esc(p.nome)}</div>
+        <div class="adm-item__sub">${esc(nomeCategoria(p.categoria_id))}${estoqueLabel(p)}</div>
+      </div>
+      <div class="adm-item__actions">
+        <button type="button" class="adm-btn adm-btn--ghost" data-edit-prod="${esc(p.id)}">Editar</button>
+        <button type="button" class="adm-btn adm-btn--danger" data-del-prod="${esc(p.id)}">Excluir</button>
+      </div>
+    </div>`;
+}
+
 function renderProdutos() {
   $('prodLista').innerHTML = produtos.length
-    ? produtos.map((p) => `
-      <div class="adm-item">
-        <img class="adm-item__thumb" src="${esc(p.imagem || '')}" alt="" onerror="this.style.visibility='hidden'" />
-        <div class="adm-item__main">
-          <div class="adm-item__title">${esc(p.nome)}</div>
-          <div class="adm-item__sub">${esc(nomeCategoria(p.categoria_id))}</div>
-        </div>
-        <div class="adm-item__actions">
-          <button class="adm-btn adm-btn--ghost" data-edit-prod="${esc(p.id)}">Editar</button>
-          <button class="adm-btn adm-btn--danger" data-del-prod="${esc(p.id)}">Excluir</button>
-        </div>
-      </div>`).join('')
+    ? produtos.map((p) => `<div class="adm-item-wrap" data-id="${esc(p.id)}">${itemProduto(p)}</div>`).join('')
     : '<p class="adm-empty">Nenhum produto ainda.</p>';
 }
 
@@ -235,13 +258,9 @@ function renderFotos() {
   }
 }
 
-function abrirFormProduto(p = {}) {
+function formProdutoHTML(p) {
   const catOpts = categorias.map((c) => `<option value="${esc(c.id)}" ${p.categoria_id === c.id ? 'selected' : ''}>${esc(c.titulo)}</option>`).join('');
-  fotos = [p.imagem, ...(p.imagens || [])].filter(Boolean).map((url) => ({ url, preview: url }));
-  const f = $('prodForm');
-  f.hidden = false;
-  f.dataset.id = p.id || '';
-  f.innerHTML = `
+  return `
     <div class="adm-row">
       <div class="adm-field"><label>Nome${help('Nome do produto que aparece no card, ex: "Cinto Liso".')}</label><input name="nome" value="${esc(p.nome || '')}" required /></div>
       <div class="adm-field"><label>Categoria${help('Em qual categoria o produto entra.')}</label><select name="categoria_id" required>${catOpts}</select></div>
@@ -251,6 +270,10 @@ function abrirFormProduto(p = {}) {
     <div class="adm-row">
       <div class="adm-field"><label>Selo (texto)${help('Etiqueta no canto da foto, ex: "Novo". Vazio = não mostra.')}</label><input name="badge" value="${esc(p.badge || '')}" /></div>
       <div class="adm-field"><label>Cor do selo${help('Cor de fundo da etiqueta. Só aparece se o selo tiver texto.')}</label><input type="color" name="badge_cor" value="${esc(p.badge_cor || COR_SELO_PADRAO)}" /></div>
+    </div>
+    <div class="adm-row">
+      <div class="adm-field adm-field--check"><input type="checkbox" name="estoque_ativo" id="estAtivo" ${p.estoque_ativo ? 'checked' : ''} /><label for="estAtivo" style="margin:0">Controlar estoque${help('Ligado: o site mostra "Esgotado" quando a quantidade chega a 0.')}</label></div>
+      <div class="adm-field"><label>Quantidade em estoque${help('Só usado se "Controlar estoque" estiver ligado.')}</label><input name="estoque" type="number" min="0" value="${Number(p.estoque) || 0}" /></div>
     </div>
     <div class="adm-field" style="max-width:12rem"><label>Ordem${help('Posição na categoria. Menor aparece primeiro.')}</label><input name="ordem" type="number" value="${Number(p.ordem) || 0}" /></div>
     <div class="adm-field">
@@ -263,12 +286,19 @@ function abrirFormProduto(p = {}) {
       <button type="submit" class="adm-btn">Salvar</button>
       <button type="button" class="adm-btn adm-btn--ghost" data-cancel>Cancelar</button>
     </div>`;
-  renderFotos();
 }
 
-async function salvarProduto(e) {
-  e.preventDefault();
-  const f = $('prodForm');
+function abrirFormProduto(p = {}, novo = false) {
+  fecharForms();
+  const mount = novo ? $('prodNovoForm') : document.querySelector(`#prodLista .adm-item-wrap[data-id="${p.id}"]`);
+  if (!mount) return;
+  fotos = [p.imagem, ...(p.imagens || [])].filter(Boolean).map((url) => ({ url, preview: url }));
+  mount.innerHTML = `<form class="adm-form" data-tipo="prod" data-id="${esc(p.id || '')}">${formProdutoHTML(p)}</form>`;
+  renderFotos();
+  mount.querySelector('form').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+async function salvarProduto(f) {
   const fd = new FormData(f);
   const btn = f.querySelector('button[type=submit]');
   btn.disabled = true;
@@ -278,9 +308,6 @@ async function salvarProduto(e) {
     for (const foto of fotos) {
       urls.push(foto.file ? await uploadImagem(foto.file, 'produtos') : foto.url);
     }
-    const imagem = urls[0] || null;
-    const imagens = urls.slice(1);
-
     const row = {
       categoria_id: fd.get('categoria_id'),
       nome: fd.get('nome').trim(),
@@ -288,21 +315,21 @@ async function salvarProduto(e) {
       detalhes: fd.get('detalhes').split('\n').map((s) => s.trim()).filter(Boolean),
       badge: fd.get('badge').trim() || null,
       badge_cor: fd.get('badge').trim() ? fd.get('badge_cor') : null,
+      estoque_ativo: fd.get('estoque_ativo') === 'on',
+      estoque: Number(fd.get('estoque')) || 0,
       ordem: Number(fd.get('ordem')) || 0,
-      imagem,
-      imagens,
+      imagem: urls[0] || null,
+      imagens: urls.slice(1),
     };
     const id = f.dataset.id;
     const resp = id
       ? await supabase.from('produtos').update(row).eq('id', id)
       : await supabase.from('produtos').insert(row);
     if (resp.error) throw resp.error;
-    f.hidden = true;
     msg($('globalMsg'), 'Produto salvo.', 'ok');
     await carregarTudo();
   } catch (err) {
     msg($('globalMsg'), 'Erro ao salvar produto: ' + err.message, 'err');
-  } finally {
     btn.disabled = false;
   }
 }
@@ -327,6 +354,7 @@ function exportarXLSX() {
     Descrição: p.descricao,
     Detalhes: (p.detalhes || []).join(' | '),
     Selo: p.badge || '',
+    Estoque: p.estoque_ativo ? p.estoque : '—',
     Ordem: p.ordem,
     Fotos: 1 + (p.imagens ? p.imagens.length : 0),
   }));
@@ -347,23 +375,40 @@ function init() {
   $('loginForm').addEventListener('submit', entrar);
   $('logoutBtn').addEventListener('click', sair);
   $('exportBtn').addEventListener('click', exportarXLSX);
-  $('novaCategoria').addEventListener('click', () => abrirFormCategoria());
+  $('novaCategoria').addEventListener('click', () => abrirFormCategoria({}, true));
   $('novoProduto').addEventListener('click', () => {
     if (!categorias.length) { msg($('globalMsg'), 'Crie uma categoria antes de adicionar produtos.', 'err'); return; }
-    abrirFormProduto();
+    abrirFormProduto({}, true);
   });
-  $('catForm').addEventListener('submit', salvarCategoria);
-  $('prodForm').addEventListener('submit', salvarProduto);
 
-  // Fotos do produto: adicionar / remover / tornar capa
-  $('prodForm').addEventListener('click', (e) => {
+  const app = $('appView');
+
+  app.addEventListener('submit', (e) => {
+    const form = e.target.closest('form.adm-form');
+    if (!form) return;
+    e.preventDefault();
+    if (form.dataset.tipo === 'cat') salvarCategoria(form);
+    else if (form.dataset.tipo === 'prod') salvarProduto(form);
+  });
+
+  app.addEventListener('click', (e) => {
+    if (e.target.closest('[data-cancel]')) { fecharForms(); return; }
     if (e.target.closest('#addFoto')) { $('fotoInput').click(); return; }
     const rm = e.target.closest('[data-foto-rm]');
     if (rm) { fotos.splice(Number(rm.dataset.fotoRm), 1); renderFotos(); return; }
     const cap = e.target.closest('[data-foto-capa]');
-    if (cap) { const i = Number(cap.dataset.fotoCapa); const [x] = fotos.splice(i, 1); fotos.unshift(x); renderFotos(); }
+    if (cap) { const i = Number(cap.dataset.fotoCapa); const [x] = fotos.splice(i, 1); fotos.unshift(x); renderFotos(); return; }
+    const ec = e.target.closest('[data-edit-cat]');
+    if (ec) { abrirFormCategoria(categorias.find((c) => c.id === ec.dataset.editCat)); return; }
+    const dc = e.target.closest('[data-del-cat]');
+    if (dc) { excluirCategoria(dc.dataset.delCat); return; }
+    const ep = e.target.closest('[data-edit-prod]');
+    if (ep) { abrirFormProduto(produtos.find((p) => p.id === ep.dataset.editProd)); return; }
+    const dp = e.target.closest('[data-del-prod]');
+    if (dp) { excluirProduto(dp.dataset.delProd); return; }
   });
-  $('prodForm').addEventListener('change', (e) => {
+
+  app.addEventListener('change', (e) => {
     if (e.target.id !== 'fotoInput') return;
     for (const file of e.target.files) {
       if (fotos.length >= MAX_FOTOS) break;
@@ -371,16 +416,6 @@ function init() {
     }
     e.target.value = '';
     renderFotos();
-  });
-
-  document.addEventListener('click', (e) => {
-    const t = e.target.closest('[data-edit-cat],[data-del-cat],[data-edit-prod],[data-del-prod],[data-cancel]');
-    if (!t) return;
-    if (t.dataset.cancel !== undefined) { t.closest('form').hidden = true; return; }
-    if (t.dataset.editCat) abrirFormCategoria(categorias.find((c) => c.id === t.dataset.editCat));
-    else if (t.dataset.delCat) excluirCategoria(t.dataset.delCat);
-    else if (t.dataset.editProd) abrirFormProduto(produtos.find((p) => p.id === t.dataset.editProd));
-    else if (t.dataset.delProd) excluirProduto(t.dataset.delProd);
   });
 
   supabase.auth.getSession().then(({ data }) => mostrarView(data.session));

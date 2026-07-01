@@ -42,6 +42,7 @@ export function badgeHtml(base, item) {
 /** Card de produto (página de catálogo). Usa o sprite #ic-wpp já presente na página. */
 export function buildProdutoCard(p) {
   const badge = badgeHtml('produto-card__badge', p);
+  const esgotado = p.estoque_ativo && Number(p.estoque) <= 0;
   const detalhes = (p.detalhes || []).map((d) => `<li>${esc(d)}</li>`).join('');
 
   // Galeria = capa + fotos adicionais. Abre no lightbox (wiring em catalogo.js).
@@ -56,11 +57,12 @@ export function buildProdutoCard(p) {
     : '';
 
   return `
-    <article class="produto-card" data-imgs="${imgsAttr}" data-alt="${esc(p.nome)}">
+    <article class="produto-card${esgotado ? ' produto-card--esgotado' : ''}" data-imgs="${imgsAttr}" data-alt="${esc(p.nome)}">
       <div class="produto-card__img-wrap produto-card__img-wrap--zoom" data-open="0" role="button" tabindex="0" aria-label="Ampliar foto de ${esc(p.nome)}">
         <img src="${esc(p.imagem)}" alt="${esc(p.nome)}" class="produto-card__img" loading="lazy"
              onerror="this.closest('.produto-card__img-wrap').classList.add('img-placeholder')" />
         ${badge}
+        ${esgotado ? '<span class="produto-card__esgotado">Esgotado</span>' : ''}
         ${multi ? `<span class="produto-card__gcount" aria-hidden="true">${galeria.length} fotos</span>` : ''}
       </div>
       ${thumbs}
