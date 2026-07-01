@@ -1,0 +1,8 @@
+{
+  "name": "selaria-santos",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tests/catalogo.test.mjs"
+  }
+}

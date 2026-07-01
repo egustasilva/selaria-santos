@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Painel — Selaria Santos</title>
+  <link rel="icon" href="assets/images/favicon.ico" sizes="any" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { background: var(--cor-bege); }
+    .adm-wrap { max-width: 900px; margin-inline: auto; padding: 1.5rem; }
+    .adm-top {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap; margin-bottom: var(--sp-lg);
+      padding-bottom: 1rem; border-bottom: 1px solid var(--cor-bege-esc);
+    }
+    .adm-top h1 { font-family: var(--font-display); font-size: 1.5rem; color: var(--cor-terra); }
+    .adm-user { font-size: 0.85rem; color: var(--cor-texto-sec); }
+
+    .adm-login { max-width: 360px; margin: 12vh auto 0; }
+    .adm-login h1 { font-family: var(--font-display); font-size: 1.6rem; color: var(--cor-terra); margin-bottom: 1.25rem; text-align: center; }
+
+    .adm-section { margin-bottom: var(--sp-xl); }
+    .adm-section__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+    .adm-section__head h2 { font-family: var(--font-display); font-size: 1.25rem; color: var(--cor-terra); }
+
+    .adm-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .adm-item {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.7rem 0.9rem; background: var(--cor-branco);
+      border: 1px solid var(--cor-bege-esc); border-radius: var(--radius-sm);
+    }
+    .adm-item__thumb { width: 44px; height: 44px; object-fit: cover; border-radius: 4px; background: var(--cor-bege-esc); flex-shrink: 0; }
+    .adm-item__main { flex: 1; min-width: 0; }
+    .adm-item__title { font-weight: 700; color: var(--cor-terra); }
+    .adm-item__sub { font-size: 0.8rem; color: var(--cor-texto-ter); }
+    .adm-item__actions { display: flex; gap: 0.4rem; flex-shrink: 0; }
+
+    .adm-btn {
+      font-family: var(--font-body); font-size: 0.82rem; font-weight: 700;
+      padding: 0.5rem 0.9rem; border-radius: var(--radius-sm); border: 1px solid transparent;
+      cursor: pointer; background: var(--cor-couro); color: #fff;
+    }
+    .adm-btn--ghost { background: transparent; color: var(--cor-couro); border-color: var(--cor-bege-esc); }
+    .adm-btn--danger { background: transparent; color: #a23; border-color: #e6b8bf; }
+    .adm-btn:disabled { opacity: 0.5; cursor: default; }
+
+    .adm-form { background: var(--cor-branco); border: 1px solid var(--cor-bege-esc); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1rem; }
+    .adm-form[hidden] { display: none; }
+    .adm-field { margin-bottom: 0.85rem; }
+    .adm-field label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--cor-couro); margin-bottom: 0.3rem; }
+    .adm-field input, .adm-field textarea, .adm-field select {
+      width: 100%; padding: 0.6rem 0.7rem; font: inherit; font-size: 0.9rem;
+      border: 1px solid var(--cor-bege-esc); border-radius: var(--radius-sm); background: #fff; color: var(--cor-texto);
+    }
+    .adm-field textarea { min-height: 4.5rem; resize: vertical; }
+    .adm-field--check { display: flex; align-items: center; gap: 0.5rem; }
+    .adm-field--check input { width: auto; }
+    .adm-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+    .adm-form__actions { display: flex; gap: 0.6rem; margin-top: 0.5rem; }
+    .adm-preview { max-width: 120px; border-radius: var(--radius-sm); margin-top: 0.4rem; display: none; }
+    .adm-hint { display: block; margin-top: 0.3rem; font-size: 0.78rem; color: var(--cor-texto-ter); }
+    .adm-fotos { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.7rem; }
+    .adm-foto { position: relative; width: 84px; }
+    .adm-foto img { width: 84px; height: 84px; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--cor-bege-esc); display: block; }
+    .adm-foto--capa img { border: 2px solid var(--cor-ouro); }
+    .adm-foto__tag { position: absolute; top: 3px; left: 3px; background: var(--cor-ouro); color: var(--cor-terra); font-size: 0.62rem; font-weight: 700; padding: 0.1rem 0.35rem; border-radius: 3px; }
+    .adm-foto__rm { position: absolute; top: -7px; right: -7px; width: 22px; height: 22px; border-radius: 50%; border: none; background: #a23; color: #fff; cursor: pointer; font-size: 1rem; line-height: 1; }
+    .adm-foto__cap { position: absolute; bottom: 3px; left: 3px; right: 3px; border: none; background: rgba(46,26,14,0.8); color: #fff; font-size: 0.6rem; padding: 0.15rem; border-radius: 3px; cursor: pointer; }
+    .adm-help { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 50%; background: var(--cor-bege-esc); color: var(--cor-couro); font-size: 0.65rem; font-weight: 700; cursor: help; vertical-align: middle; }
+    .adm-help::after {
+      content: attr(data-tip);
+      position: absolute; bottom: 135%; left: 50%; transform: translateX(-50%);
+      width: max-content; max-width: 240px; white-space: normal; text-align: left;
+      background: var(--cor-terra); color: #fff; font-size: 0.72rem; font-weight: 400; line-height: 1.4;
+      padding: 0.5rem 0.7rem; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      opacity: 0; visibility: hidden; transition: opacity 0.12s; pointer-events: none; z-index: 20;
+    }
+    .adm-help:hover::after, .adm-help:focus::after { opacity: 1; visibility: visible; }
+    input[type=color] { height: 38px; padding: 0.2rem; cursor: pointer; }
+
+    .adm-msg { padding: 0.7rem 0.9rem; border-radius: var(--radius-sm); margin-bottom: 1rem; font-size: 0.88rem; }
+    .adm-msg--err { background: #fbe9ec; color: #a23; border: 1px solid #e6b8bf; }
+    .adm-msg--ok { background: #e8f5ec; color: #1a7a3a; border: 1px solid #b8e0c4; }
+    .adm-msg[hidden] { display: none; }
+    .adm-empty { color: var(--cor-texto-ter); font-size: 0.88rem; font-style: italic; }
+    .adm-toast {
+      position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%) translateY(1.2rem);
+      z-index: 3000; max-width: 90vw; padding: 0.8rem 1.2rem; border-radius: 10px;
+      color: #fff; font-weight: 700; font-size: 0.9rem; box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      opacity: 0; visibility: hidden; transition: opacity 0.2s, transform 0.2s;
+    }
+    .adm-toast.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+    .adm-toast--ok { background: #1a7a3a; }
+    .adm-toast--err { background: #a23; }
+    @media (prefers-reduced-motion: reduce) { .adm-toast { transition: none; } }
+    @media (max-width: 560px) { .adm-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <!-- LOGIN -->
+  <section class="adm-wrap adm-login" id="loginView" hidden>
+    <h1>Painel Selaria</h1>
+    <div class="adm-msg adm-msg--err" id="loginErr" hidden></div>
+    <form id="loginForm" class="adm-form">
+      <div class="adm-field">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" autocomplete="username" required />
+      </div>
+      <div class="adm-field">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" autocomplete="current-password" required />
+      </div>
+      <button type="submit" class="adm-btn" id="loginBtn" style="width:100%">Entrar</button>
+    </form>
+  </section>
+
+  <!-- APP -->
+  <main class="adm-wrap" id="appView" hidden>
+    <div class="adm-top">
+      <h1>Painel — Catálogo</h1>
+      <div>
+        <span class="adm-user" id="admUser"></span>
+        <button class="adm-btn adm-btn--ghost" id="exportBtn">Exportar XLSX</button>
+        <button class="adm-btn adm-btn--ghost" id="logoutBtn">Sair</button>
+      </div>
+    </div>
+
+    <div class="adm-msg" id="globalMsg" hidden></div>
+
+    <!-- CATEGORIAS -->
+    <section class="adm-section">
+      <div class="adm-section__head">
+        <h2>Categorias</h2>
+        <button class="adm-btn" id="novaCategoria">+ Nova categoria</button>
+      </div>
+      <div id="catNovoForm"></div>
+      <div class="adm-list" id="catLista"></div>
+    </section>
+
+    <!-- PRODUTOS -->
+    <section class="adm-section">
+      <div class="adm-section__head">
+        <h2>Produtos</h2>
+        <button class="adm-btn" id="novoProduto">+ Novo produto</button>
+      </div>
+      <div id="prodNovoForm"></div>
+      <div class="adm-list" id="prodLista"></div>
+    </section>
+  </main>
+
+  <div class="adm-wrap" id="naoConfig" hidden>
+    <p class="adm-msg adm-msg--err">Supabase ainda não configurado. Preencha <code>js/supabase-config.js</code> com a URL e a anon key do seu projeto.</p>
+  </div>
+
+  <script src="js/vendor/supabase.umd.js"></script>
+  <script src="js/vendor/xlsx.full.min.js"></script>
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>

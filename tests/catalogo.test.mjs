@@ -1,61 +1,78 @@
 /**
- * Teste mínimo do caminho crítico do catálogo (sem framework — node tests/catalogo.test.mjs).
- * Garante que:
- *   1. cada categoria tem título + ao menos 1 produto com os campos que buildCard usa;
- *   2. toda imagem referenciada existe em assets/ (pega imagem movida/renomeada por engano);
- *   3. as tabs do catalogo.html batem 1-a-1 com as chaves de CATEGORIAS (sem desync).
+ * Testa o render puro do catálogo (js/catalogo-render.js) — sem DOM, sem Supabase.
+ * Rodar: node tests/catalogo.test.mjs
+ * Foco no que mais importa: escape de XSS (conteúdo agora vem do ADM), sprite do
+ * WhatsApp, link gerado do nome e classes de badge.
  */
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { esc, wppLink, buildProdutoCard, buildCategoriaCard } from '../js/catalogo-render.js';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+// esc
+assert.equal(esc(`<b>"a"&'x'`), '&lt;b&gt;&quot;a&quot;&amp;&#39;x&#39;');
+assert.equal(esc(null), '');
 
-// Extrai o literal CATEGORIAS do catalogo.js e avalia (encodeURIComponent é global no Node).
-function loadCategorias() {
-  const src = readFileSync(join(root, 'js/catalogo.js'), 'utf8');
-  const start = src.indexOf('const CATEGORIAS');
-  assert.ok(start !== -1, 'CATEGORIAS não encontrado em catalogo.js');
-  const open = src.indexOf('{', start);
-  let depth = 0, end = -1;
-  for (let i = open; i < src.length; i++) {
-    if (src[i] === '{') depth++;
-    else if (src[i] === '}' && --depth === 0) { end = i; break; }
-  }
-  assert.ok(end !== -1, 'literal CATEGORIAS sem chave de fechamento');
-  // eval é seguro aqui: a entrada é um literal do nosso próprio js/catalogo.js
-  // (fonte versionada e confiável), não input externo. JSON.parse não serve
-  // porque o literal usa chamadas encodeURIComponent(...).
-  return eval('(' + src.slice(open, end + 1) + ')'); // eslint-disable-line no-eval
-}
+// wppLink — mensagem do nome, URL-encoded
+const link = wppLink('Cinto Liso');
+assert.ok(link.startsWith('https://wa.me/5512988520409?text='), 'base do wa.me');
+assert.ok(link.includes(encodeURIComponent('Cinto Liso')), 'nome no texto');
+assert.ok(!link.includes(' '), 'sem espaço cru na URL');
 
-// Slugs das tabs no HTML (data-cat="...").
-function loadTabSlugs() {
-  const html = readFileSync(join(root, 'catalogo.html'), 'utf8');
-  return [...html.matchAll(/data-cat="([^"]+)"/g)].map((m) => m[1]);
-}
+// produto: sprite, badge gold, detalhes, escape
+const cardP = buildProdutoCard({
+  nome: 'Cinto Liso', descricao: 'Couro legítimo', detalhes: ['A', 'B'],
+  badge: 'Sob medida', badge_mod: 'gold', imagem: 'assets/images/cinto.webp',
+});
+assert.ok(cardP.includes('<use href="#ic-wpp"/>'), 'usa o sprite do WhatsApp');
+assert.ok(cardP.includes('produto-card__badge produto-card__badge--gold'), 'classe de badge gold');
+assert.ok(cardP.includes('<li>A</li>') && cardP.includes('<li>B</li>'), 'detalhes viram <li>');
+assert.ok(cardP.includes('src="assets/images/cinto.webp"'), 'src da imagem');
 
-const CATEGORIAS = loadCategorias();
-const slugs = Object.keys(CATEGORIAS);
-assert.ok(slugs.length > 0, 'nenhuma categoria');
+// produto sem badge → sem div de badge
+assert.ok(!buildProdutoCard({ nome: 'X', descricao: 'y', detalhes: [], imagem: '' }).includes('produto-card__badge'),
+  'sem badge não renderiza a div');
 
-let produtos = 0;
-for (const [slug, cat] of Object.entries(CATEGORIAS)) {
-  assert.ok(cat.titulo && typeof cat.titulo === 'string', `${slug}: título ausente`);
-  assert.ok(Array.isArray(cat.produtos) && cat.produtos.length > 0, `${slug}: sem produtos`);
-  for (const p of cat.produtos) {
-    produtos++;
-    for (const campo of ['nome', 'img', 'desc', 'wpp']) {
-      assert.ok(p[campo] && typeof p[campo] === 'string', `${slug}/${p.nome || '?'}: campo "${campo}" ausente`);
-    }
-    assert.ok(Array.isArray(p.detalhes) && p.detalhes.length > 0, `${slug}/${p.nome}: sem detalhes`);
-    assert.ok(existsSync(join(root, p.img)), `${slug}/${p.nome}: imagem não existe -> ${p.img}`);
-  }
-}
+// XSS: nome malicioso é escapado, não injeta <script>
+const evil = buildProdutoCard({ nome: '<script>alert(1)</script>', descricao: 'x', detalhes: [], imagem: '' });
+assert.ok(!evil.includes('<script>alert(1)</script>'), 'script cru não vaza');
+assert.ok(evil.includes('&lt;script&gt;'), 'script é escapado');
 
-// Paridade tabs <-> dados (nas duas direções).
-const tabs = loadTabSlugs();
-assert.deepEqual([...tabs].sort(), [...slugs].sort(), 'tabs do HTML não batem com as chaves de CATEGORIAS');
+// selo com cor custom: fundo inline + texto contrastante, sem classe --mod
+const corEscura = buildProdutoCard({ nome: 'X', descricao: 'd', detalhes: [], imagem: 'a.webp', badge: 'Novo', badge_cor: '#4E2C18' });
+assert.ok(corEscura.includes('style="background:#4E2C18;color:#fff"'), 'cor escura → texto branco');
+assert.ok(!corEscura.includes('produto-card__badge--'), 'cor custom não usa classe modificadora');
+const corClara = buildProdutoCard({ nome: 'X', descricao: 'd', detalhes: [], imagem: 'a.webp', badge: 'Novo', badge_cor: '#F0BE4F' });
+assert.ok(corClara.includes('color:#2E1A0E'), 'cor clara → texto escuro');
+// cor inválida → cai no fallback do modificador antigo
+const corRuim = buildProdutoCard({ nome: 'X', descricao: 'd', detalhes: [], imagem: 'a.webp', badge: 'Novo', badge_cor: 'red', badge_mod: 'gold' });
+assert.ok(corRuim.includes('produto-card__badge--gold'), 'cor inválida cai no badge_mod');
 
-console.log(`OK — ${slugs.length} categorias, ${produtos} produtos, ${tabs.length} tabs, imagens existem.`);
+// estoque: controla + 0 → "Esgotado"; controla + >0 ou não controla → sem esgotado
+const esg = buildProdutoCard({ nome: 'X', descricao: 'd', detalhes: [], imagem: 'a.webp', estoque_ativo: true, estoque: 0 });
+assert.ok(esg.includes('produto-card--esgotado') && esg.includes('>Esgotado<'), 'estoque 0 → Esgotado');
+const comEstoque = buildProdutoCard({ nome: 'X', descricao: 'd', detalhes: [], imagem: 'a.webp', estoque_ativo: true, estoque: 3 });
+assert.ok(!comEstoque.includes('produto-card--esgotado'), 'estoque >0 → sem Esgotado');
+const semControle = buildProdutoCard({ nome: 'X', descricao: 'd', detalhes: [], imagem: 'a.webp', estoque_ativo: false, estoque: 0 });
+assert.ok(!semControle.includes('produto-card--esgotado'), 'sem controle → sem Esgotado');
+
+// galeria: com fotos adicionais → miniaturas + data-imgs com todas
+const cardG = buildProdutoCard({ nome: 'Sela', descricao: 'd', detalhes: [], imagem: 'a.webp', imagens: ['b.webp', 'c.webp'] });
+assert.ok(cardG.includes('produto-card__thumbs'), 'galeria: renderiza miniaturas');
+assert.ok(cardG.includes('3 fotos'), 'galeria: contador de fotos (capa + 2)');
+assert.ok(cardG.includes('a.webp') && cardG.includes('b.webp') && cardG.includes('c.webp'), 'galeria: todas as fotos no data-imgs');
+assert.ok(/data-imgs="[^"]*&quot;/.test(cardG), 'galeria: data-imgs é JSON escapado (atributo seguro)');
+
+// produto com 1 foto só → sem miniaturas, mas data-imgs tem a capa
+const card1 = buildProdutoCard({ nome: 'Sela', descricao: 'd', detalhes: [], imagem: 'a.webp' });
+assert.ok(!card1.includes('produto-card__thumbs'), '1 foto: sem miniaturas');
+assert.ok(card1.includes('data-imgs='), '1 foto: ainda tem data-imgs (abre no lightbox)');
+
+// categoria: destaque + slug no href + badge dark
+const cardC = buildCategoriaCard({
+  slug: 'cintos', titulo: 'Cintos', descricao: 'desc', imagem: 'x.webp',
+  badge: 'Sob medida', badge_mod: 'dark', destaque: true,
+});
+assert.ok(cardC.includes('categoria-card--destaque'), 'classe destaque');
+assert.ok(cardC.includes('catalogo.html?c=cintos#catContent'), 'href com slug');
+assert.ok(cardC.includes('categoria-card__badge categoria-card__badge--dark'), 'badge dark');
+
+console.log('OK — render: escape/XSS, sprite, wppLink, badges e href conferidos.');

@@ -123,14 +123,8 @@
          TABS DE CATEGORIA (sticky abaixo do header)
     ============================================================ -->
     <div class="cat-tabs-wrap" role="navigation" aria-label="Filtro por categoria">
-      <div class="cat-tabs" id="catTabs" role="tablist" aria-label="Categorias">
-        <button class="cat-tab" role="tab" data-cat="selas"      aria-selected="false">Selas</button>
-        <button class="cat-tab" role="tab" data-cat="arreios"    aria-selected="false">Arreios</button>
-        <button class="cat-tab" role="tab" data-cat="cintos"     aria-selected="false">Cintos</button>
-        <button class="cat-tab" role="tab" data-cat="bolsas"     aria-selected="false">Bolsas &amp; Acessórios</button>
-        <button class="cat-tab" role="tab" data-cat="consertos"  aria-selected="false">Consertos</button>
-        <button class="cat-tab" role="tab" data-cat="sobmedida"  aria-selected="false">Sob Medida</button>
-      </div>
+      <!-- Tabs preenchidas por js/catalogo.js a partir do banco -->
+      <div class="cat-tabs" id="catTabs" role="tablist" aria-label="Categorias"></div>
     </div>
 
     <!-- ============================================================
@@ -203,7 +197,8 @@
     </a>
   </div>
 
+  <script src="js/vendor/supabase.umd.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/catalogo.js"></script>
+  <script type="module" src="js/catalogo.js"></script>
 </body>
 </html>
